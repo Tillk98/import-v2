@@ -84,7 +84,7 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
       </div>
 
       {/* Right side - Form */}
-      <div className="flex-1 space-y-6 mb-16">
+      <div className={`flex-1 space-y-6 ${selectedSharingOption === "Private Lesson" ? "mb-32" : "mb-16"}`}>
         {/* Title */}
         <div>
           <label className="block text-lg font-semibold text-gray-900 mb-3">
@@ -179,9 +179,15 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
               className="flex items-center justify-between w-fit px-4 py-3 text-gray-900 border-gray-300 hover:bg-gray-50 rounded-lg min-w-[200px]"
             >
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+                {selectedSharingOption === "Private Lesson" ? (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                  </svg>
+                )}
                 <span className="font-medium">{selectedSharingOption}</span>
               </div>
               <svg 
@@ -218,7 +224,7 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
                     className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors"
                   >
                     <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                     </svg>
                     <span className="text-gray-900 font-medium">Shared Lesson</span>
                   </button>
@@ -227,6 +233,99 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
             )}
           </div>
         </div>
+
+        {/* Shared Lesson Options - Only show when Shared Lesson is selected */}
+        {selectedSharingOption === "Shared Lesson" && (
+          <div className="relative pl-8 space-y-6">
+            {/* Vertical line */}
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-300"></div>
+            
+            {/* Language */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-900 mb-3">
+                Language
+              </label>
+              <Button
+                variant="outline"
+                className="flex items-center justify-between w-full px-4 py-3 text-gray-900 border-gray-300 hover:bg-gray-50 rounded-lg"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-4 rounded-sm overflow-hidden flex">
+                    <div className="w-1/3 bg-blue-600"></div>
+                    <div className="w-1/3 bg-white"></div>
+                    <div className="w-1/3 bg-red-600"></div>
+                  </div>
+                  <span className="font-medium">Français (Detected)</span>
+                </div>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </Button>
+            </div>
+
+            {/* Accent */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-900 mb-3">
+                Accent
+              </label>
+              <Button
+                variant="outline"
+                className="flex items-center justify-between w-full px-4 py-3 text-gray-500 border-gray-300 hover:bg-gray-50 rounded-lg"
+              >
+                <span>Accent</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </Button>
+            </div>
+
+            {/* Level */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-900 mb-3">
+                Level
+              </label>
+              <Button
+                variant="outline"
+                className="flex items-center justify-between w-full px-4 py-3 text-gray-500 border-gray-300 hover:bg-gray-50 rounded-lg"
+              >
+                <span>Level</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </Button>
+            </div>
+
+            {/* Categories */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-900 mb-3">
+                Categories
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {["Books", "Culture", "Entertainment", "Food", "Grammar", "Health", "History", "Kids", "Language", "Language YouTubers", "Lifestyle", "News", "Podcasts", "Politics", "Pronunciation", "Science", "Songs", "Sports", "Technology", "Travel", "Other"].map((category) => (
+                  <Button
+                    key={category}
+                    variant="outline"
+                    className="px-3 py-2 text-sm text-gray-600 border-gray-300 hover:bg-gray-50 rounded-full"
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tags */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-900 mb-3">
+                Tags
+              </label>
+              <input
+                type="text"
+                placeholder="Search a tag ..."
+                className="w-full p-3 border border-gray-300 rounded-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

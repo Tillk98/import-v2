@@ -5,6 +5,23 @@
   .all-\[unset\] {
     all: unset;
   }
+  
+  .animate-pulse-slide {
+    width: 30%;
+    animation: slide 2s ease-in-out infinite;
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(250%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 :root {
@@ -134,4 +151,23 @@
   #app {
     min-height: 100vh;
   }
+}
+
+@keyframes pulse-slide {
+  0% {
+    transform: translateX(-100%);
+    width: 30%;
+  }
+  50% {
+    transform: translateX(0%);
+    width: 50%;
+  }
+  100% {
+    transform: translateX(200%);
+    width: 30%;
+  }
+}
+
+.animate-pulse-slide {
+  animation: pulse-slide 2s ease-in-out infinite;
 }

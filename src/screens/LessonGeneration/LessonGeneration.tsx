@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationSection } from "../ChooseImportMethod/sections/NavigationSection/NavigationSection";
 import { Button } from "../../components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import { LessonPreview } from "../../components/LessonPreview/LessonPreview";
 
 interface LessonGenerationProps {
   onBack?: () => void;
@@ -37,8 +38,9 @@ export const LessonGeneration = ({ onBack, onGenerateLesson }: LessonGenerationP
     <div className="flex flex-col items-center relative bg-white min-h-screen">
       <NavigationSection />
       <LessonGenerationHeader onBack={onBack} onGenerateLesson={onGenerateLesson} />
-      {/* Blank content area */}
-      <div className="flex-1 w-full"></div>
+      <div className="flex-1 w-full">
+        <LessonPreview onGenerateLesson={onGenerateLesson} />
+      </div>
     </div>
   );
 };

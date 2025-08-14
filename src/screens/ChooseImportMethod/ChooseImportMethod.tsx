@@ -90,15 +90,17 @@ export const ChooseImportMethod = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center relative bg-white min-h-screen">
-      <NavigationSection />
-      <LessonImportHeader 
-        hasText={hasText} 
-        hasFile={hasFile} 
-        onEditDetails={handleEditDetails}
-        onGenerateLesson={handleGenerateLesson}
-        isLoading={isLoading}
-        loadingType={loadingType}
-      />
+      <div className="w-full sticky top-0 z-10 bg-white">
+        <NavigationSection />
+        <LessonImportHeader 
+          hasText={hasText} 
+          hasFile={hasFile} 
+          onEditDetails={handleEditDetails}
+          onGenerateLesson={handleGenerateLesson}
+          isLoading={isLoading}
+          loadingType={loadingType}
+        />
+      </div>
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center w-full">
           <LoadingScreen />

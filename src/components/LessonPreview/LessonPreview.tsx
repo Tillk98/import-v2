@@ -16,7 +16,7 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
   return (
     <div className="flex flex-col lg:flex-row gap-8 p-8 pb-16 w-full max-w-[1400px] mx-auto">
       {/* Left side - Lesson Preview Card */}
-      <div className="flex-shrink-0 lg:sticky lg:top-24 self-start">
+      <div className="flex-shrink-0 lg:sticky lg:top-32 self-start">
         <Card className="w-[368px] bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
           <div className="relative">
             {/* Video thumbnail with overlay */}

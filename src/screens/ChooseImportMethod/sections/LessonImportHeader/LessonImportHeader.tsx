@@ -20,7 +20,7 @@ export const LessonImportHeader = ({
   loadingType = null
 }: LessonImportHeaderProps): JSX.Element => {
   return (
-    <div className="w-full border-b border-gray-200 bg-white sticky top-0 z-10">
+    <div className="w-full border-b border-gray-200 bg-white">
       <div className="flex items-center justify-between px-8 py-4">
         <Button
           variant="outline"

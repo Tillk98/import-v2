@@ -23,7 +23,7 @@ export const NavigationSection = (): JSX.Element => {
   ];
 
   return (
-    <nav className="flex h-[50px] items-center justify-between pl-16 pr-8 py-2 relative w-full z-[2]">
+    <nav className="flex h-[50px] items-center justify-between pl-16 pr-8 py-2 relative w-full z-[3] bg-white">
       <div className="flex items-center gap-3">
         <div className="relative w-[98px] h-[31.5px] bg-[url(/union.svg)] bg-contain bg-center bg-no-repeat" />
       </div>

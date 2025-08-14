@@ -81,6 +81,7 @@ export const ContentSection = ({
   const [textContent, setTextContent] = useState('');
   const [urlContent, setUrlContent] = useState('');
   const [uploadedFile, setUploadedFile] = useState<{name: string, type: 'audio' | 'document', size: string, time: string} | null>(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1240);
   const textInputRef = useRef<HTMLDivElement>(null);
 
   const toggleCard = (cardId: string) => {
@@ -150,6 +151,15 @@ export const ContentSection = ({
   const handleReplaceFile = (type: 'audio' | 'document') => {
     handleFileSelect(type); // Simulate selecting a new file
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if ((showTypeOrPasteInput || showWebLinksInput || showAudioFilesInput || showDocumentsInput) && textInputRef.current) {
@@ -252,7 +262,7 @@ export const ContentSection = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 w-full max-w-[500px] mx-auto justify-items-center">
+          <div className={`grid gap-4 w-full max-w-[500px] mx-auto justify-items-center ${windowWidth >= 1240 ? 'grid-cols-2' : 'grid-cols-1'}`}>
             {streamingPlatforms.map((platform, index) => {
               const cardId = `streaming-${index}`;
               const isActive = activeCards.has(cardId);

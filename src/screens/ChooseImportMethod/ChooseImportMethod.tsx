@@ -75,6 +75,9 @@ export const ChooseImportMethod = (): JSX.Element => {
     setTimeout(() => {
       setIsLoading(false);
       setLoadingType(null);
+      // Reset file state after generating lesson so button disappears
+      setHasFile(false);
+      setHasText(false);
     }, 5000);
   };
 

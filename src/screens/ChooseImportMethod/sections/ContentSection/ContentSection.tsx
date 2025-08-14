@@ -63,6 +63,7 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
   const [showAudioFilesInput, setShowAudioFilesInput] = useState(false);
   const [showDocumentsInput, setShowDocumentsInput] = useState(false);
   const [textContent, setTextContent] = useState('');
+  const [urlContent, setUrlContent] = useState('');
   const [uploadedFile, setUploadedFile] = useState<{name: string, type: 'audio' | 'document', size: string, time: string} | null>(null);
   const textInputRef = useRef<HTMLDivElement>(null);
 
@@ -87,6 +88,7 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
     
     // Reset text content when switching tabs
     setTextContent('');
+    setUrlContent('');
     onTextChange?.(false);
 
     // Show the appropriate input based on selected card
@@ -106,6 +108,12 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setTextContent(value);
+    onTextChange?.(value.trim().length > 0);
+  };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUrlContent(value);
     onTextChange?.(value.trim().length > 0);
   };
 
@@ -333,6 +341,8 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
               placeholder="Paste URL ..."
               className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400"
               autoFocus
+              value={urlContent}
+              onChange={handleUrlChange}
             />
             <p className="text-gray-600 text-sm mt-2">
               Don't have a URL ready? Here are <a href="#" className="text-blue-500 underline">some sites we recommend</a> you explore for content.
@@ -344,14 +354,9 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
       {showAudioFilesInput && (
         <div ref={textInputRef} className="w-full max-w-[1200px] mt-8">
           <div className="w-full">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)]">
-                Upload an Audio File
-              </h3>
-              <button className="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium">
-                Quick Import
-              </button>
-            </div>
+            <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4">
+              Upload an Audio File
+            </h3>
 {uploadedFile?.type === 'audio' ? (
               <div className="w-full">
                 <div className="border-2 border-dashed border-green-300 rounded-lg p-6 bg-green-50">
@@ -413,14 +418,9 @@ export const ContentSection = ({ onTextChange, onFileUpload }: ContentSectionPro
       {showDocumentsInput && (
         <div ref={textInputRef} className="w-full max-w-[1200px] mt-8">
           <div className="w-full">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)]">
-                Upload a Text File
-              </h3>
-              <button className="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium">
-                Quick Import
-              </button>
-            </div>
+            <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4">
+              Upload a Text File
+            </h3>
 {uploadedFile?.type === 'document' ? (
               <div className="w-full">
                 <div className="border-2 border-dashed border-green-300 rounded-lg p-6 bg-green-50">

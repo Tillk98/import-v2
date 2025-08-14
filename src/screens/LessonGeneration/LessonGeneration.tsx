@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationSection } from "../ChooseImportMethod/sections/NavigationSection/NavigationSection";
 import { LessonPreview } from "../../components/LessonPreview/LessonPreview";
 import { LessonImportHeader } from "../ChooseImportMethod/sections/LessonImportHeader/LessonImportHeader";
+import { ProgressIndicator } from "../../components/ProgressIndicator/ProgressIndicator";
 
 interface LessonGenerationProps {
   onBack?: () => void;
@@ -16,6 +17,7 @@ export const LessonGeneration = ({ onBack, onGenerateLesson }: LessonGenerationP
         <NavigationSection />
         <LessonImportHeader onBack={onBack} currentStep={3} onGenerateLesson={onGenerateLesson} />
       </div>
+      <ProgressIndicator currentStep={3} />
       <div className="flex-1 w-full">
         <LessonPreview onGenerateLesson={onGenerateLesson} />
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ContentSection } from "./sections/ContentSection/ContentSection";
 import { NavigationSection } from "./sections/NavigationSection/NavigationSection";
 import { LessonImportHeader } from "./sections/LessonImportHeader/LessonImportHeader";
+import { ProgressIndicator } from "../../components/ProgressIndicator/ProgressIndicator";
 import { LessonGeneration } from "../LessonGeneration/LessonGeneration";
 import { TypeOrPasteInput } from "./sections/InputPages/TypeOrPasteInput";
 import { WebLinksInput } from "./sections/InputPages/WebLinksInput";
@@ -160,16 +161,11 @@ export const ChooseImportMethod = (): JSX.Element => {
         <div className="w-full sticky top-0 z-10 bg-white">
           <NavigationSection />
           <LessonImportHeader 
-            hasText={hasText} 
-            hasFile={hasFile} 
-            onEditDetails={handleEditDetails}
-            onGenerateLesson={handleGenerateLesson}
-            isLoading={isLoading}
-            loadingType={loadingType}
             onBack={handleBackToImportMethods}
             currentStep={2}
           />
         </div>
+        <ProgressIndicator currentStep={2} hasFileUploaded={hasFile} />
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center w-full">
             <LoadingScreen />
@@ -186,15 +182,10 @@ export const ChooseImportMethod = (): JSX.Element => {
       <div className="w-full sticky top-0 z-10 bg-white">
         <NavigationSection />
         <LessonImportHeader 
-          hasText={hasText} 
-          hasFile={hasFile} 
-          onEditDetails={handleEditDetails}
-          onGenerateLesson={handleGenerateLesson}
-          isLoading={isLoading}
-          loadingType={loadingType}
           currentStep={1}
         />
       </div>
+      <ProgressIndicator currentStep={1} />
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center w-full">
           <LoadingScreen />

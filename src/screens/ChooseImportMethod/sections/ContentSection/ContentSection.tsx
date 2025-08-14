@@ -252,7 +252,7 @@ export const ContentSection = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 xl:gap-9 w-full max-w-[436px] mx-auto justify-items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 w-full max-w-[500px] mx-auto justify-items-center">
             {streamingPlatforms.map((platform, index) => {
               const cardId = `streaming-${index}`;
               const isActive = activeCards.has(cardId);

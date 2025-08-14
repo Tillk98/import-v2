@@ -109,7 +109,16 @@ export const ChooseImportMethod = (): JSX.Element => {
           <LoadingScreen />
         </div>
       ) : (
-        <ContentSection onTextChange={setHasText} onFileUpload={setHasFile} />
+        <ContentSection 
+          onTextChange={setHasText} 
+          onFileUpload={setHasFile} 
+          onEditDetails={handleEditDetails}
+          onGenerateLesson={handleGenerateLesson}
+          hasText={hasText}
+          hasFile={hasFile}
+          isLoading={isLoading}
+          loadingType={loadingType}
+        />
       )}
     </div>
   );

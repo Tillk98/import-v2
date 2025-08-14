@@ -138,6 +138,100 @@ export const LessonPreview = ({ onGenerateLesson }: LessonPreviewProps): JSX.Ele
           </Button>
         </div>
       </div>
+        {/* Level */}
+        <div>
+          <label className="block text-lg font-semibold text-gray-900 mb-3">
+            Level
+          </label>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Beginner 1
+            </Button>
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Beginner 2
+            </Button>
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Intermediate 1
+            </Button>
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Intermediate 2
+            </Button>
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Advanced 1
+            </Button>
+            <Button
+              variant="outline"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              Advanced 2
+            </Button>
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div>
+          <label className="block text-lg font-semibold text-gray-900 mb-3">
+            Tags
+          </label>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              politics
+            </span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              france
+            </span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              military
+            </span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              parade
+            </span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              bastille day
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              className="px-3 py-1 text-blue-500 border-blue-500 hover:bg-blue-50 rounded-full text-sm"
+            >
+              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add Tag
+            </Button>
+          </div>
+        </div>
+
+        {/* Collection */}
+        <div>
+          <label className="block text-lg font-semibold text-gray-900 mb-3">
+            Collection
+          </label>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 px-4 py-3 text-blue-500 border-blue-500 hover:bg-blue-50 rounded-full"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add / Create Collection
+          </Button>
+        </div>
     </div>
   );
 };

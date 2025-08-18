@@ -70,6 +70,18 @@ export const ContentSection = ({
       onImportMethodSelected?.('audio-files');
     } else if (cardId === 'diy-3') { // Documents
       onImportMethodSelected?.('documents');
+    } else if (cardId === 'streaming-0') { // Spotify
+      onImportMethodSelected?.('spotify');
+    } else if (cardId === 'streaming-1') { // Netflix
+      onImportMethodSelected?.('netflix');
+    } else if (cardId === 'streaming-2') { // Prime Video
+      onImportMethodSelected?.('prime-video');
+    } else if (cardId === 'streaming-3') { // YouTube
+      onImportMethodSelected?.('youtube');
+    } else if (cardId === 'social-0') { // Instagram
+      onImportMethodSelected?.('instagram');
+    } else if (cardId === 'social-1') { // TikTok
+      onImportMethodSelected?.('tiktok');
     }
   };
 

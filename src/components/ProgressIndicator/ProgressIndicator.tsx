@@ -3,9 +3,10 @@ import React from "react";
 interface ProgressIndicatorProps {
   currentStep: 1 | 2 | 3; // 1 = Source, 2 = Import, 3 = Edit
   hasFileUploaded?: boolean; // Special state for when files are uploaded
+  hasUrlInput?: boolean; // Special state for when URL is added (same behavior as file upload)
 }
 
-export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: ProgressIndicatorProps): JSX.Element => {
+export const ProgressIndicator = ({ currentStep, hasFileUploaded = false, hasUrlInput = false }: ProgressIndicatorProps): JSX.Element => {
   const steps = [
     {
       number: 1,
@@ -25,8 +26,8 @@ export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: Prog
   ];
 
   const getStepCircleClasses = (stepNumber: number) => {
-    // Special case: when file is uploaded on step 2, show both step 2 and 3 as completed
-    if (hasFileUploaded && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
+    // Special case: when file is uploaded or URL is added on step 2, show both step 2 and 3 as completed
+    if ((hasFileUploaded || hasUrlInput) && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
       return "w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center";
     }
     
@@ -43,8 +44,8 @@ export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: Prog
   };
 
   const getStepTitleClasses = (stepNumber: number) => {
-    // Special case: when file is uploaded on step 2, show both step 2 and 3 as completed
-    if (hasFileUploaded && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
+    // Special case: when file is uploaded or URL is added on step 2, show both step 2 and 3 as completed
+    if ((hasFileUploaded || hasUrlInput) && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
       return "text-gray-500";
     }
     
@@ -58,8 +59,8 @@ export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: Prog
   };
 
   const getConnectorClasses = (stepNumber: number) => {
-    // Special case: when file is uploaded on step 2, make line between Import and Edit green
-    if (hasFileUploaded && currentStep === 2 && stepNumber === 3) {
+    // Special case: when file is uploaded or URL is added on step 2, make line between Import and Edit green
+    if ((hasFileUploaded || hasUrlInput) && currentStep === 2 && stepNumber === 3) {
       return "h-0.5 bg-green-500 flex-1 mx-3";
     }
     
@@ -72,8 +73,8 @@ export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: Prog
   };
 
   const isStepCompleted = (stepNumber: number) => {
-    // Special case: when file is uploaded on step 2, show both step 2 and 3 as completed
-    if (hasFileUploaded && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
+    // Special case: when file is uploaded or URL is added on step 2, show both step 2 and 3 as completed
+    if ((hasFileUploaded || hasUrlInput) && currentStep === 2 && (stepNumber === 2 || stepNumber === 3)) {
       return true;
     }
     return stepNumber < currentStep;
@@ -99,8 +100,8 @@ export const ProgressIndicator = ({ currentStep, hasFileUploaded = false }: Prog
                   <h3 className={`text-sm ${getStepTitleClasses(step.number)}`}>
                     {step.title}
                   </h3>
-                  {/* Show subtitle for Edit step when file is uploaded - positioned absolutely to not affect layout */}
-                  {hasFileUploaded && currentStep === 2 && step.number === 3 && (
+                  {/* Show subtitle for Edit step when file is uploaded or URL is added - positioned absolutely to not affect layout */}
+                  {(hasFileUploaded || hasUrlInput) && currentStep === 2 && step.number === 3 && (
                     <p className="text-xs text-gray-400 absolute top-full left-1/2 transform -translate-x-1/2 mt-1 whitespace-nowrap">
                       auto-configured on upload
                     </p>

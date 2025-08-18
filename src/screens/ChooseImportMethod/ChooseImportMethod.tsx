@@ -8,6 +8,12 @@ import { TypeOrPasteInput } from "./sections/InputPages/TypeOrPasteInput";
 import { WebLinksInput } from "./sections/InputPages/WebLinksInput";
 import { AudioFilesInput } from "./sections/InputPages/AudioFilesInput";
 import { DocumentsInput } from "./sections/InputPages/DocumentsInput";
+import { SpotifyInput } from "./sections/InputPages/SpotifyInput";
+import { NetflixInput } from "./sections/InputPages/NetflixInput";
+import { PrimeVideoInput } from "./sections/InputPages/PrimeVideoInput";
+import { YouTubeInput } from "./sections/InputPages/YouTubeInput";
+import { InstagramInput } from "./sections/InputPages/InstagramInput";
+import { TikTokInput } from "./sections/InputPages/TikTokInput";
 
 const LoadingScreen = (): JSX.Element => {
   const [dots, setDots] = useState('');
@@ -151,6 +157,67 @@ export const ChooseImportMethod = (): JSX.Element => {
               loadingType={loadingType}
             />
           );
+        case 'spotify':
+          return (
+            <SpotifyInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'netflix':
+          return (
+            <NetflixInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'prime-video':
+          return (
+            <PrimeVideoInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'youtube':
+          return (
+            <YouTubeInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'instagram':
+          return (
+            <InstagramInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'tiktok':
+          return (
+            <TikTokInput
+              onTextChange={setHasText}
+              onEditDetails={handleEditDetails}
+              hasText={hasText}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
         default:
           return null;
       }
@@ -165,7 +232,11 @@ export const ChooseImportMethod = (): JSX.Element => {
             currentStep={2}
           />
         </div>
-        <ProgressIndicator currentStep={2} hasFileUploaded={hasFile} />
+        <ProgressIndicator 
+          currentStep={2} 
+          hasFileUploaded={hasFile} 
+          hasUrlInput={hasText && (selectedImportMethod === 'spotify' || selectedImportMethod === 'youtube')}
+        />
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center w-full">
             <LoadingScreen />

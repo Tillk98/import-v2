@@ -24,33 +24,36 @@ const doItYourselfOptions = [
   },
 ];
 
-const streamingPlatforms = [
+const platformIcons = [
   {
     image: "..//image.png",
     title: "Spotify",
+    id: "spotify"
   },
   {
     image: "..//image-1.png",
     title: "Netflix",
+    id: "netflix"
   },
   {
     image: "..//image-2.png",
     title: "Prime Video",
+    id: "prime-video"
   },
   {
     image: "..//image-3.png",
     title: "YouTube",
+    id: "youtube"
   },
-];
-
-const socialPlatforms = [
   {
     image: "..//image-4.png",
     title: "Instagram",
+    id: "instagram"
   },
   {
     image: "..//image-5.png",
     title: "Tik Tok",
+    id: "tiktok"
   },
 ];
 
@@ -63,6 +66,7 @@ export const ContentSection = ({
 }: ContentSectionProps): JSX.Element => {
   const [activeCards, setActiveCards] = useState<Set<string>>(new Set());
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1240);
+  const [extensionInstalled, setExtensionInstalled] = useState(false);
 
   const toggleCard = (cardId: string) => {
     // Navigate to the appropriate input page
@@ -76,19 +80,24 @@ export const ContentSection = ({
       onImportMethodSelected?.('documents');
     } else if (cardId === 'diy-4') { // Scan
       onImportMethodSelected?.('scan');
-    } else if (cardId === 'streaming-0') { // Spotify
+    } else if (cardId === 'spotify') {
       onImportMethodSelected?.('spotify');
-    } else if (cardId === 'streaming-1') { // Netflix
+    } else if (cardId === 'netflix') {
       onImportMethodSelected?.('netflix');
-    } else if (cardId === 'streaming-2') { // Prime Video
+    } else if (cardId === 'prime-video') {
       onImportMethodSelected?.('prime-video');
-    } else if (cardId === 'streaming-3') { // YouTube
+    } else if (cardId === 'youtube') {
       onImportMethodSelected?.('youtube');
-    } else if (cardId === 'social-0') { // Instagram
+    } else if (cardId === 'instagram') {
       onImportMethodSelected?.('instagram');
-    } else if (cardId === 'social-1') { // TikTok
+    } else if (cardId === 'tiktok') {
       onImportMethodSelected?.('tiktok');
     }
+  };
+
+  const handleInstallExtension = () => {
+    window.open('https://chrome.google.com/webstore', '_blank');
+    setExtensionInstalled(true);
   };
 
   useEffect(() => {
@@ -101,157 +110,165 @@ export const ContentSection = ({
   }, []);
 
   return (
-    <section className="flex flex-col items-center gap-10 p-8 w-full">
-      <div className="flex flex-col max-w-[1200px] items-center gap-4 w-full">
-        <h1 className="[font-family:'DM_Sans',Helvetica] font-semibold text-[40px] text-center leading-[48px] text-black">
-          Real progress starts with <span className="text-[#2e75cd]">real</span>{" "}
-          <span className="text-[#2e75cd]">content.</span>
-        </h1>
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      {/* Header and DIY Cards combined */}
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-4 w-full">
+          <h1 className="text-[32px] font-semibold text-center leading-[40px] text-black">
+            Real progress starts with <span className="text-[#3b82f6]">real content.</span>
+          </h1>
+          <p className="text-lg text-gray-600 text-center">
+            Create your own lessons from stuff you love.
+          </p>
+        </div>
 
-        <p className="font-text-2xl-regular font-[number:var(--text-2xl-regular-font-weight)] text-black text-[length:var(--text-2xl-regular-font-size)] text-center tracking-[var(--text-2xl-regular-letter-spacing)] leading-[var(--text-2xl-regular-line-height)] [font-style:var(--text-2xl-regular-font-style)]">
-          Create your own lessons from stuff you love.
-        </p>
+        {/* DIY Cards - Horizontal layout */}
+        <div className="flex flex-wrap items-center justify-center gap-4 w-full">
+          {doItYourselfOptions.map((option, index) => {
+            const cardId = `diy-${index}`;
+            return (
+              <div
+                key={index}
+                className="flex items-center gap-3 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:shadow-md transition-all min-w-[140px]"
+                onClick={() => toggleCard(cardId)}
+              >
+                <img
+                  className="w-6 h-6"
+                  alt={option.title}
+                  src={option.icon}
+                />
+                <span className="text-sm font-medium text-gray-800">
+                  {option.title}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="flex items-start justify-center gap-4 p-8 w-full max-w-[1200px] mx-auto rounded-xl bg-[linear-gradient(0deg,rgba(140,141,142,0.13)_0%,rgba(241,243,244,0.25)_81%)] before:content-[''] before:absolute before:inset-0 before:p-0.5 before:rounded-xl before:[background:linear-gradient(90deg,rgba(66,165,100,1)_0%,rgba(46,117,205,1)_100%)] before:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude] before:z-[1] before:pointer-events-none relative">
-        <div className="flex flex-col items-center gap-10 px-4 py-8 flex-1 min-w-0 rounded-lg">
-          <div className="flex flex-col items-center gap-2 w-full">
-            <h2 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] text-center tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)]">
-              Do it Yourself
-            </h2>
+      {/* Import from Your Favorite Platforms section */}
+      <div className="flex flex-col items-center gap-6 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-black mb-2">
+            Use the LingQ Extension
+          </h2>
+          <p className="text-gray-600 text-base">
+            Transform TV shows, YouTube videos, podcast episodes – even you favorite songs – into interactive lessons with the LingQ browser extension.
+          </p>
+        </div>
 
-            <p className="font-text-m-regular font-[number:var(--text-m-regular-font-weight)] text-[#49525b] text-[length:var(--text-m-regular-font-size)] text-center tracking-[var(--text-m-regular-letter-spacing)] leading-[var(--text-m-regular-line-height)] [font-style:var(--text-m-regular-font-style)]">
-              Build a lesson with just a link, file, or copy &amp; pasted text.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-start justify-center gap-[24px_24px] w-full">
-            {doItYourselfOptions.map((option, index) => {
-              const cardId = `diy-${index}`;
-              const isActive = activeCards.has(cardId);
-              return (
-                <Card
-                  key={index}
-                  className={`group w-[200px] h-16 border cursor-pointer transition-all ${
-                    isActive 
-                      ? 'bg-[#2e75cd] border-[#2e75cd]' 
-                      : 'bg-white border-[#d1d6d9] hover:bg-[#c6e1ff] hover:border-[#c6e1ff]'
-                  }`}
-                  onClick={() => toggleCard(cardId)}
-                >
-                  <CardContent className="flex items-center gap-2.5 px-4 py-3 h-full">
-                    <img
-                      className={`w-[30px] h-[30px] transition-all ${
-                        isActive 
-                          ? 'brightness-0 invert' 
-                          : ''
-                      }`}
-                      alt="Icon"
-                      src={option.icon}
-                      style={{
-                        filter: isActive ? 'brightness(0) invert(1)' : undefined
-                      }}
-                    />
-                    <span className={`font-text-m-bold font-[number:var(--text-m-bold-font-weight)] text-[length:var(--text-m-bold-font-size)] tracking-[var(--text-m-bold-letter-spacing)] leading-[var(--text-m-bold-line-height)] [font-style:var(--text-m-bold-font-style)] transition-colors ${
-                      isActive ? 'text-white' : 'text-black group-hover:text-black'
-                    }`}>
-                      {option.title}
-                    </span>
-                  </CardContent>
-                </Card>
-              );
-            })}
+        {/* Platform Icons */}
+        <div className="relative w-full mb-8 overflow-hidden">
+          <div className="ticker-container">
+            <div className="ticker-track">
+              {/* First set of icons */}
+              <div className="ticker-item-group">
+                {platformIcons.filter(platform => platform.id !== 'spotify').map((platform, index) => (
+                  <div
+                    key={`first-${index}`}
+                    className="ticker-icon"
+                    style={{ backgroundImage: `url(${platform.image})` }}
+                    title={platform.title}
+                  />
+                ))}
+              </div>
+              {/* Duplicate set for seamless loop */}
+              <div className="ticker-item-group">
+                {platformIcons.filter(platform => platform.id !== 'spotify').map((platform, index) => (
+                  <div
+                    key={`second-${index}`}
+                    className="ticker-icon"
+                    style={{ backgroundImage: `url(${platform.image})` }}
+                    title={platform.title}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="w-px bg-gray-300 self-stretch mx-4"></div>
-
-        <div className="flex flex-col items-center gap-10 px-4 py-8 flex-[1.5] min-w-0 rounded-lg">
-          <div className="flex flex-col items-center gap-2 w-full">
-            <h2 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] text-center tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)]">
-              Streaming Platforms
-            </h2>
-
-            <p className="font-text-m-regular font-[number:var(--text-m-regular-font-weight)] text-[#49525b] text-[length:var(--text-m-regular-font-size)] text-center tracking-[var(--text-m-regular-letter-spacing)] leading-[var(--text-m-regular-line-height)] [font-style:var(--text-m-regular-font-style)]">
-              Choose a platform below to turn your favorite song, podcast, video
-              or TV series into a lesson.
-            </p>
+        {/* Step-by-Step Guide */}
+        <div className="w-full max-w-2xl">
+          {/* Step 1 */}
+          <div className="flex items-start gap-4 mb-6">
+            <div className="flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-400 rounded-lg flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                  <path d="M8 12H16M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              {/* Connecting line to Step 2 */}
+              <div className="w-0.5 h-12 bg-gray-200 ml-5 mt-2"></div>
+            </div>
+            <div className="flex-1">
+              <div className="mb-1">
+                <span className="text-xs text-gray-500 uppercase tracking-wider">Step 1</span>
+              </div>
+              <h3 className="text-lg font-semibold text-black mb-2">Get the LingQ Extension.</h3>
+              {!extensionInstalled ? (
+                <>
+                  <p className="text-gray-600 text-sm mb-3">
+                    Import content directly from your favorite platforms in 1-click.
+                  </p>
+                  <button
+                    onClick={handleInstallExtension}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Install Extension
+                  </button>
+                </>
+              ) : (
+                <div className="flex items-center gap-2 text-green-600">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="text-sm font-medium">Extension detected & ready to go!</span>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className={`grid gap-4 w-full max-w-[500px] mx-auto justify-items-center ${windowWidth >= 1240 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-            {streamingPlatforms.map((platform, index) => {
-              const cardId = `streaming-${index}`;
-              const isActive = activeCards.has(cardId);
-              return (
-                <Card
-                  key={index}
-                  className={`group w-[200px] h-16 border cursor-pointer transition-all ${
-                    isActive 
-                      ? 'bg-[#2e75cd] border-[#2e75cd]' 
-                      : 'bg-white border-[#d1d6d9] hover:bg-[#c6e1ff] hover:border-[#c6e1ff]'
-                  }`}
-                  onClick={() => toggleCard(cardId)}
-                >
-                  <CardContent className="flex items-center gap-2.5 px-4 py-3 h-full">
-                    <div
-                      className="w-10 h-10 rounded-lg bg-cover bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url(${platform.image})` }}
-                    />
-                    <span className={`font-text-m-bold font-[number:var(--text-m-bold-font-weight)] text-[length:var(--text-m-bold-font-size)] tracking-[var(--text-m-bold-letter-spacing)] leading-[var(--text-m-bold-line-height)] [font-style:var(--text-m-bold-font-style)] transition-colors ${
-                      isActive ? 'text-white' : 'text-black group-hover:text-black'
-                    }`}>
-                      {platform.title}
-                    </span>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="w-px bg-gray-300 self-stretch mx-4"></div>
-
-        <div className="flex flex-col items-center gap-10 px-4 py-8 flex-1 min-w-0 rounded-lg">
-          <div className="flex flex-col items-center gap-2 w-full">
-            <h2 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] text-center tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)]">
-              Socials
-            </h2>
-
-            <p className="font-text-m-regular font-[number:var(--text-m-regular-font-weight)] text-[#49525b] text-[length:var(--text-m-regular-font-size)] text-center tracking-[var(--text-m-regular-letter-spacing)] leading-[var(--text-m-regular-line-height)] [font-style:var(--text-m-regular-font-style)]">
-              Create lessons from Reels and Tik Toks to get more out of
-              scrolling.
-            </p>
+          {/* Step 2 */}
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                extensionInstalled ? 'bg-blue-500' : 'bg-gray-300'
+              }`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                  <path d="M21 15V19A2 2 0 0119 21H5A2 2 0 013 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="mb-1">
+                <span className={`text-xs uppercase tracking-wider ${extensionInstalled ? 'text-gray-500' : 'text-gray-400'}`}>Step 2</span>
+              </div>
+              <h3 className={`text-lg font-semibold mb-2 ${extensionInstalled ? 'text-black' : 'text-gray-400'}`}>
+                Choose a Platform & Import Content
+              </h3>
+              <p className={`text-sm ${extensionInstalled ? 'text-gray-600' : 'text-gray-400'}`}>
+                Use the LingQ extension to create interactive lessons instantly from TV shows, YouTube videos, podcast episodes – even your favorite songs.
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-start justify-center gap-[24px_24px] w-full">
-            {socialPlatforms.map((platform, index) => {
-              const cardId = `social-${index}`;
-              const isActive = activeCards.has(cardId);
-              return (
-                <Card
-                  key={index}
-                  className={`group w-[200px] h-16 border cursor-pointer transition-all ${
-                    isActive 
-                      ? 'bg-[#2e75cd] border-[#2e75cd]' 
-                      : 'bg-white border-[#d1d6d9] hover:bg-[#c6e1ff] hover:border-[#c6e1ff]'
-                  }`}
-                  onClick={() => toggleCard(cardId)}
-                >
-                  <CardContent className="flex items-center gap-2.5 px-4 py-3 h-full">
-                    <div
-                      className="w-10 h-10 rounded-lg bg-cover bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url(${platform.image})` }}
-                    />
-                    <span className={`font-text-m-bold font-[number:var(--text-m-bold-font-weight)] text-[length:var(--text-m-bold-font-size)] tracking-[var(--text-m-bold-letter-spacing)] leading-[var(--text-m-bold-line-height)] [font-style:var(--text-m-bold-font-style)] transition-colors ${
-                      isActive ? 'text-white' : 'text-black group-hover:text-black'
-                    }`}>
-                      {platform.title}
-                    </span>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          {/* Platform Icons (only shown when Step 2 is active) */}
+          {extensionInstalled && (
+            <div className="flex items-center justify-center gap-4 mt-6">
+              {platformIcons.filter(platform => platform.id !== 'spotify').map((platform, index) => (
+                <div
+                  key={`step2-${index}`}
+                  className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat cursor-pointer hover:scale-105 transition-transform"
+                  style={{ backgroundImage: `url(${platform.image})` }}
+                  onClick={() => toggleCard(platform.id)}
+                  title={platform.title}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

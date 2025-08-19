@@ -232,7 +232,7 @@ export const ChooseImportMethod = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col items-center relative bg-white min-h-screen">
+      <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
         <div className="w-full sticky top-0 z-10 bg-white">
           <NavigationSection />
           <LessonImportHeader 
@@ -259,7 +259,7 @@ export const ChooseImportMethod = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col items-center relative bg-white min-h-screen">
+    <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
       <div className="w-full sticky top-0 z-10 bg-white">
         <NavigationSection />
         <LessonImportHeader 

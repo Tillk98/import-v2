@@ -105,7 +105,7 @@ export const ProgressIndicator = ({
   };
 
   return (
-    <div className="w-full bg-white py-4">
+    <div className="w-full bg-[#F1F3F4] py-4">
       <div className="max-w-[600px] mx-auto px-6">
         <div className="flex items-center justify-between">
           {steps.map((step, index) => (

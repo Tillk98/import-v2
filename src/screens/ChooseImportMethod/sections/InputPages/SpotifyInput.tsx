@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "../../../../components/ui/button";
 
 interface SpotifyInputProps {
   onTextChange?: (hasText: boolean) => void;
-  onEditDetails?: () => void;
   onGenerateLesson?: () => void;
   hasText?: boolean;
   isLoading?: boolean;
@@ -12,19 +11,44 @@ interface SpotifyInputProps {
 
 export const SpotifyInput = ({
   onTextChange,
-  onEditDetails,
   onGenerateLesson,
   hasText = false,
   isLoading = false,
   loadingType
 }: SpotifyInputProps): JSX.Element => {
-  const [inputValue, setInputValue] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const isValidUrl = (url: string): boolean => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const validateValue = (value: string) => {
+    const trimmedValue = value.trim();
+    
+    // Check if URL is valid when there's content
+    const isInvalidUrl = trimmedValue.length > 0 && !isValidUrl(trimmedValue);
+    
+    // Check if valid URL contains "show" (case insensitive) - this is also invalid for Spotify
+    const isShowUrl = isValidUrl(trimmedValue) && trimmedValue.toLowerCase().includes("show");
+    
+    const hasAnyError = isInvalidUrl || isShowUrl;
+    setHasError(hasAnyError);
+    
+    // Only report as having text if there's no error
+    onTextChange?.(trimmedValue.length > 0 && !hasAnyError);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setInputValue(value);
-    onTextChange?.(value.trim().length > 0);
+    validateValue(value);
   };
+
 
   return (
     <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-12">
@@ -48,15 +72,26 @@ export const SpotifyInput = ({
       {/* Input Section */}
       <div className="w-full max-w-md">
         <input
+          ref={inputRef}
           type="text"
           placeholder="Enter a URL ..."
-          value={inputValue}
           onChange={handleInputChange}
-          className="w-full h-14 px-4 border border-[#d1d6d9] rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#2e75cd] focus:border-transparent"
+          className={`w-full h-14 px-4 border rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 ${
+            hasError 
+              ? 'border-[#DD2525] focus:ring-[#DD2525] focus:border-[#DD2525]' 
+              : 'border-[#d1d6d9] focus:ring-[#2e75cd] focus:border-transparent'
+          }`}
         />
         
-        {/* Generate Lesson Button - appears right under input */}
-        {hasText && (
+        {/* Error Message */}
+        {hasError && (
+          <p className="text-[#DD2525] text-sm mt-2 text-left">
+            Invalid URL: Please link only individual tracks and podcast episodes.
+          </p>
+        )}
+        
+        {/* Generate Lesson Button - appears right under input, but only if no error */}
+        {hasText && !hasError && (
           <div className="mt-4">
             <Button
               onClick={onGenerateLesson}

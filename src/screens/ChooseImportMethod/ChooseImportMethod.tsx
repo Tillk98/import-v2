@@ -66,30 +66,22 @@ export const ChooseImportMethod = (): JSX.Element => {
   const [loadingType, setLoadingType] = useState<'edit' | 'generate' | null>(null);
   const [showLessonGeneration, setShowLessonGeneration] = useState(false);
   const [selectedImportMethod, setSelectedImportMethod] = useState<string | null>(null);
-
-  const handleEditDetails = () => {
-    setIsLoading(true);
-    setLoadingType('edit');
-    
-    // Simulate loading for 5 seconds
-    setTimeout(() => {
-      setIsLoading(false);
-      setLoadingType(null);
-      setShowLessonGeneration(true);
-    }, 5000);
-  };
+  const [isGeneratingLesson, setIsGeneratingLesson] = useState(false);
 
   const handleGenerateLesson = () => {
+    setIsGeneratingLesson(true); // Mark that lesson generation has started
     setIsLoading(true);
     setLoadingType('generate');
     
-    // Simulate loading for 5 seconds
+    // Simulate loading for 5 seconds, then return to main page
     setTimeout(() => {
       setIsLoading(false);
       setLoadingType(null);
-      // Reset file state after generating lesson so button disappears
+      // Reset all states and return to main import methods page
       setHasFile(false);
       setHasText(false);
+      setSelectedImportMethod(null);
+      setIsGeneratingLesson(false);
     }, 5000);
   };
 
@@ -97,12 +89,14 @@ export const ChooseImportMethod = (): JSX.Element => {
     setShowLessonGeneration(false);
     setHasText(false);
     setHasFile(false);
+    setIsGeneratingLesson(false);
   };
 
   const handleBackToImportMethods = () => {
     setSelectedImportMethod(null);
     setHasText(false);
     setHasFile(false);
+    setIsGeneratingLesson(false);
   };
 
   const handleImportMethodSelected = (methodId: string) => {
@@ -121,7 +115,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <TypeOrPasteInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -131,7 +125,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <WebLinksInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -161,7 +155,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <SpotifyInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -171,7 +165,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <NetflixInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -181,7 +175,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <PrimeVideoInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -191,7 +185,6 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <YouTubeInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
               onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
@@ -202,7 +195,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <InstagramInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -212,11 +205,26 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <TikTokInput
               onTextChange={setHasText}
-              onEditDetails={handleEditDetails}
+              onGenerateLesson={handleGenerateLesson}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
             />
+          );
+        case 'scan':
+          return (
+            <div className="flex-1 flex items-center justify-center w-full">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold mb-4">Scan Feature</h2>
+                <p className="text-gray-600 mb-8">This feature is coming soon!</p>
+                <button
+                  onClick={handleBackToImportMethods}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  Back to Import Methods
+                </button>
+              </div>
+            </div>
           );
         default:
           return null;
@@ -236,6 +244,8 @@ export const ChooseImportMethod = (): JSX.Element => {
           currentStep={2} 
           hasFileUploaded={hasFile} 
           hasUrlInput={hasText && (selectedImportMethod === 'spotify' || selectedImportMethod === 'youtube')}
+          hasContent={hasFile || hasText}
+          isGeneratingLesson={isGeneratingLesson}
         />
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center w-full">
@@ -256,7 +266,11 @@ export const ChooseImportMethod = (): JSX.Element => {
           currentStep={1}
         />
       </div>
-      <ProgressIndicator currentStep={1} />
+      <ProgressIndicator 
+        currentStep={1} 
+        hasContent={false}
+        isGeneratingLesson={false}
+      />
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center w-full">
           <LoadingScreen />

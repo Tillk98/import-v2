@@ -18,6 +18,10 @@ const doItYourselfOptions = [
     icon: "/icon-1.svg",
     title: "Documents",
   },
+  {
+    icon: "/scan-icon.svg",
+    title: "Scan",
+  },
 ];
 
 const streamingPlatforms = [
@@ -70,6 +74,8 @@ export const ContentSection = ({
       onImportMethodSelected?.('audio-files');
     } else if (cardId === 'diy-3') { // Documents
       onImportMethodSelected?.('documents');
+    } else if (cardId === 'diy-4') { // Scan
+      onImportMethodSelected?.('scan');
     } else if (cardId === 'streaming-0') { // Spotify
       onImportMethodSelected?.('spotify');
     } else if (cardId === 'streaming-1') { // Netflix

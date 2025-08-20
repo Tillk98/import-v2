@@ -53,7 +53,6 @@ export const YouTubeInput = ({
   };
 
   const handleInstallExtension = () => {
-    window.open('https://chrome.google.com/webstore', '_blank');
     setExtensionInstalled(true);
     setCurrentStep(2);
   };

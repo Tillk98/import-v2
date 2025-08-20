@@ -4,6 +4,7 @@ import { ProgressIndicator } from "../../../../components/ProgressIndicator/Prog
 
 interface WebLinksInputProps {
   onTextChange?: (hasText: boolean) => void;
+  onUrlChange?: (url: string) => void;
   onGenerateLesson?: () => void;
   hasText?: boolean;
   isLoading?: boolean;
@@ -12,12 +13,14 @@ interface WebLinksInputProps {
 
 export const WebLinksInput = ({ 
   onTextChange, 
+  onUrlChange,
   onGenerateLesson, 
   hasText = false, 
   isLoading = false, 
   loadingType = null 
 }: WebLinksInputProps): JSX.Element => {
   const [hasError, setHasError] = useState(false);
+  const [isSpotifyShowUrl, setIsSpotifyShowUrl] = useState(false);
   const [isSpotifyUrl, setIsSpotifyUrl] = useState(false);
   const [lyricsTranscript, setLyricsTranscript] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,15 +39,31 @@ export const WebLinksInput = ({
     const trimmedValue = value.trim();
     
     // Check if URL is valid when there's content
-    const isInvalid = trimmedValue.length > 0 && !isValidUrl(trimmedValue);
-    setHasError(isInvalid);
+    const isInvalidUrl = trimmedValue.length > 0 && !isValidUrl(trimmedValue);
     
-    // Check if URL is a Spotify link
-    const isSpotify = isValidUrl(trimmedValue) && trimmedValue.toLowerCase().includes("spotify.com");
+    // Check if URL is a Spotify show link (case insensitive)
+    const isSpotifyShow = isValidUrl(trimmedValue) && 
+                         trimmedValue.toLowerCase().includes("spotify.com") && 
+                         trimmedValue.toLowerCase().includes("show");
+    
+    // Check if URL is a regular Spotify link (not a show)
+    const isSpotify = isValidUrl(trimmedValue) && 
+                     trimmedValue.toLowerCase().includes("spotify.com") && 
+                     !trimmedValue.toLowerCase().includes("show");
+    
+    const hasAnyError = isInvalidUrl || isSpotifyShow;
+    
+    setHasError(hasAnyError);
+    setIsSpotifyShowUrl(isSpotifyShow);
     setIsSpotifyUrl(isSpotify);
     
     // Only report as having text if there's no error
-    onTextChange?.(trimmedValue.length > 0 && !isInvalid);
+    onTextChange?.(trimmedValue.length > 0 && !hasAnyError);
+    
+    // Pass the URL to parent component if it's valid
+    if (isValidUrl(trimmedValue) && !hasAnyError) {
+      onUrlChange?.(trimmedValue);
+    }
   };
 
   const handleLyricsTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -61,9 +80,12 @@ export const WebLinksInput = ({
         />
         
         <div className="w-full">
-          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-left">
+          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-2 text-left">
             Link to Your Content
           </h3>
+          <p className="text-gray-600 mb-4 text-sm">
+            Try linking to a podcast or song on Spotify, a YouTube video, or an article.
+          </p>
           <input
             ref={inputRef}
             type="url"
@@ -80,7 +102,10 @@ export const WebLinksInput = ({
           {/* Error Message */}
           {hasError && (
             <p className="text-[#DD2525] text-sm mt-2 text-left">
-              Invalid URL
+              {isSpotifyShowUrl 
+                ? "Invalid URL: Please link an individual podcast episode or song track."
+                : "Invalid URL"
+              }
             </p>
           )}
           
@@ -100,22 +125,24 @@ export const WebLinksInput = ({
             </div>
           )}
           
-          {/* Which links can I use? section */}
-          <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50 rounded-lg">
-            <div className="flex-shrink-0 mt-0.5">
-              <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          {/* Which links can I use? section - only show on error */}
+          {hasError && (
+            <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50 rounded-lg">
+              <div className="flex-shrink-0 mt-0.5">
+                <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-blue-600 font-medium text-sm mb-1">Which links can I use?</h4>
+                <p className="text-gray-600 text-sm">
+                  Check out our <a href="#" className="text-blue-500 underline font-medium">how to guide</a> on linking content for more information.
+                </p>
               </div>
             </div>
-            <div className="flex-1">
-              <h4 className="text-blue-600 font-medium text-sm mb-1">Which links can I use?</h4>
-              <p className="text-gray-600 text-sm">
-                Grab links to songs and podcasts on Spotify, YouTube videos in your target language, or article & blog content. Check out our <a href="#" className="text-blue-500 underline font-medium">how to guide</a> on linking content for more information.
-              </p>
-            </div>
-          </div>
+          )}
           
           {hasText && !hasError && (
             <div className="flex justify-center mt-6">
@@ -133,7 +160,7 @@ export const WebLinksInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Generate Lesson'
+                  'Review & Save'
                 )}
               </Button>
             </div>

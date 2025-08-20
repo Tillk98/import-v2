@@ -122,7 +122,7 @@ export const AudioFilesInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Generate Lesson'
+                  'Review & Save'
                 )}
               </Button>
             </div>

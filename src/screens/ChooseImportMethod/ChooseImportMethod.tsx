@@ -16,8 +16,12 @@ import { InstagramInput } from "./sections/InputPages/InstagramInput";
 import { TikTokInput } from "./sections/InputPages/TikTokInput";
 import { ScanInput } from "./sections/InputPages/ScanInput";
 import { ExploreContent } from "../ExploreContent/ExploreContent";
+import { TypeOrPasteEditAndSave } from "./sections/EditAndSavePages/TypeOrPasteEditAndSave";
+import { DocumentsEditAndSave } from "./sections/EditAndSavePages/DocumentsEditAndSave";
+import { WebLinksEditAndSave } from "./sections/EditAndSavePages/WebLinksEditAndSave";
+import { AudioFilesEditAndSave } from "./sections/EditAndSavePages/AudioFilesEditAndSave";
 
-const LoadingScreen = (): JSX.Element => {
+const LoadingScreen = ({ showProgressIndicator = false }: { showProgressIndicator?: boolean }): JSX.Element => {
   const [dots, setDots] = useState('');
 
   useEffect(() => {
@@ -35,6 +39,15 @@ const LoadingScreen = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 w-full max-w-md">
+      {showProgressIndicator && (
+        <div className="w-full max-w-4xl mb-8">
+          <ProgressIndicator 
+            currentStep={3} 
+            hasContent={true}
+            isGeneratingLesson={true}
+          />
+        </div>
+      )}
       <div className="text-2xl font-medium text-gray-800 text-center">
         Cooking up your lesson{dots}
       </div>
@@ -64,12 +77,19 @@ const LoadingScreen = (): JSX.Element => {
 export const ChooseImportMethod = (): JSX.Element => {
   const [hasText, setHasText] = useState(false);
   const [hasFile, setHasFile] = useState(false);
+  const [webUrl, setWebUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingType, setLoadingType] = useState<'edit' | 'generate' | null>(null);
   const [showLessonGeneration, setShowLessonGeneration] = useState(false);
   const [selectedImportMethod, setSelectedImportMethod] = useState<string | null>(null);
   const [isGeneratingLesson, setIsGeneratingLesson] = useState(false);
   const [showExploreContent, setShowExploreContent] = useState(false);
+  const [showEditAndSave, setShowEditAndSave] = useState<string | null>(null);
+
+  const handleEditAndSave = () => {
+    // Navigate to EditAndSave page without loading
+    setShowEditAndSave(selectedImportMethod);
+  };
 
   const handleGenerateLesson = () => {
     setIsGeneratingLesson(true); // Mark that lesson generation has started
@@ -85,6 +105,7 @@ export const ChooseImportMethod = (): JSX.Element => {
       setHasText(false);
       setSelectedImportMethod(null);
       setIsGeneratingLesson(false);
+      setShowEditAndSave(null);
     }, 5000);
   };
 
@@ -100,6 +121,11 @@ export const ChooseImportMethod = (): JSX.Element => {
     setHasText(false);
     setHasFile(false);
     setIsGeneratingLesson(false);
+    setShowEditAndSave(null);
+  };
+
+  const handleBackFromEditAndSave = () => {
+    setShowEditAndSave(null);
   };
 
   const handleImportMethodSelected = (methodId: string) => {
@@ -122,6 +148,68 @@ export const ChooseImportMethod = (): JSX.Element => {
     return <ExploreContent onBack={handleBackFromExploreContent} />;
   }
 
+  // Show EditAndSave page if requested
+  if (showEditAndSave) {
+    const renderEditAndSavePage = () => {
+      switch (showEditAndSave) {
+        case 'type-or-paste':
+          return (
+            <TypeOrPasteEditAndSave
+              onGenerateLesson={handleGenerateLesson}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'documents':
+          return (
+            <DocumentsEditAndSave
+              onGenerateLesson={handleGenerateLesson}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        case 'web-links':
+          return (
+            <WebLinksEditAndSave
+              onGenerateLesson={handleGenerateLesson}
+              isLoading={isLoading}
+              loadingType={loadingType}
+              webUrl={webUrl}
+            />
+          );
+        case 'audio-files':
+          return (
+            <AudioFilesEditAndSave
+              onGenerateLesson={handleGenerateLesson}
+              isLoading={isLoading}
+              loadingType={loadingType}
+            />
+          );
+        default:
+          return null;
+      }
+    };
+
+    return (
+      <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
+        <div className="w-full sticky top-0 z-10 bg-white">
+          <NavigationSection />
+          <LessonImportHeader 
+            onBack={handleBackFromEditAndSave}
+            currentStep={3}
+          />
+        </div>
+        {isLoading ? (
+          <div className="flex-1 flex items-center justify-center w-full">
+            <LoadingScreen showProgressIndicator={true} />
+          </div>
+        ) : (
+          renderEditAndSavePage()
+        )}
+      </div>
+    );
+  }
+
   // Show input page if an import method is selected
   if (selectedImportMethod) {
     const renderInputPage = () => {
@@ -130,7 +218,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <TypeOrPasteInput
               onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
+              onGenerateLesson={handleEditAndSave}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -140,7 +228,8 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <WebLinksInput
               onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
+              onUrlChange={setWebUrl}
+              onGenerateLesson={handleEditAndSave}
               hasText={hasText}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -150,7 +239,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <AudioFilesInput
               onFileUpload={setHasFile}
-              onGenerateLesson={handleGenerateLesson}
+              onGenerateLesson={handleEditAndSave}
               hasFile={hasFile}
               isLoading={isLoading}
               loadingType={loadingType}
@@ -160,7 +249,7 @@ export const ChooseImportMethod = (): JSX.Element => {
           return (
             <DocumentsInput
               onFileUpload={setHasFile}
-              onGenerateLesson={handleGenerateLesson}
+              onGenerateLesson={handleEditAndSave}
               hasFile={hasFile}
               isLoading={isLoading}
               loadingType={loadingType}

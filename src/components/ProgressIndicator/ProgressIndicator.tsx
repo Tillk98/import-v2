@@ -28,7 +28,7 @@ export const ProgressIndicator = ({
     },
     {
       number: 3,
-      title: "Generate Lesson",
+      title: "Review & Save",
       description: "Create your lesson",
     },
   ];
@@ -40,7 +40,7 @@ export const ProgressIndicator = ({
     }
     
     // Step 3 (Generate Lesson) becomes completed when user has clicked generate lesson
-    if (stepNumber === 3 && isGeneratingLesson && currentStep === 2) {
+    if (stepNumber === 3 && isGeneratingLesson) {
       return "w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center";
     }
     
@@ -63,7 +63,7 @@ export const ProgressIndicator = ({
     }
     
     // Step 3 becomes completed (gray) when lesson is being generated
-    if (stepNumber === 3 && isGeneratingLesson && currentStep === 2) {
+    if (stepNumber === 3 && isGeneratingLesson) {
       return "text-gray-500";
     }
     
@@ -77,8 +77,8 @@ export const ProgressIndicator = ({
   };
 
   const getConnectorClasses = (stepNumber: number) => {
-    // Make line green from step 2 to 3 when content is added
-    if (stepNumber === 3 && hasContent && currentStep === 2) {
+    // Make line green from step 2 to 3 when content is added or lesson is being generated
+    if (stepNumber === 3 && (hasContent || isGeneratingLesson)) {
       return "h-0.5 bg-green-500 flex-1 mx-3";
     }
     
@@ -97,7 +97,7 @@ export const ProgressIndicator = ({
     }
     
     // Step 3 is completed when user has clicked generate lesson
-    if (stepNumber === 3 && isGeneratingLesson && currentStep === 2) {
+    if (stepNumber === 3 && isGeneratingLesson) {
       return true;
     }
     

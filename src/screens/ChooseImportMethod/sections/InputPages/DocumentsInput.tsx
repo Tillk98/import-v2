@@ -121,7 +121,7 @@ export const DocumentsInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Generate Lesson'
+                  'Review & Save'
                 )}
               </Button>
             </div>

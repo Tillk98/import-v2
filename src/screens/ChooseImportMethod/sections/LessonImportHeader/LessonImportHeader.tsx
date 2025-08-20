@@ -26,16 +26,7 @@ export const LessonImportHeader = ({
           Back
         </Button>
 
-        {currentStep === 3 ? (
-          <Button
-            onClick={onGenerateLesson}
-            className="flex items-center gap-2 px-6 py-2 bg-[#42a564] hover:bg-[#369554] text-white border-0"
-          >
-            Generate Lesson
-          </Button>
-        ) : (
-          <div className="w-[72px]"></div> /* Spacer to balance the back button */
-        )}
+        <div className="w-[72px]"></div> {/* Spacer to balance the back button */}
       </div>
     </div>
   );

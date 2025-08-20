@@ -62,7 +62,7 @@ export const TypeOrPasteInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Generate Lesson'
+                  'Review & Save'
                 )}
               </Button>
             </div>

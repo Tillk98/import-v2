@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface SpotifyInputProps {
-  onTextChange?: (hasText: boolean) => void;
+  onTextChange?: (hasText: boolean, lyricsTranscript?: string) => void;
   onGenerateLesson?: () => void;
   hasText?: boolean;
   isLoading?: boolean;
@@ -19,7 +19,11 @@ export const SpotifyInput = ({
 }: SpotifyInputProps): JSX.Element => {
   const [hasError, setHasError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSpotifyUrl, setIsSpotifyUrl] = useState(false);
+  const [lyricsTranscript, setLyricsTranscript] = useState("");
+  const [urlValue, setUrlValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const urlInputRef = useRef<HTMLInputElement>(null);
 
   const isValidUrl = (url: string): boolean => {
     try {
@@ -39,16 +43,51 @@ export const SpotifyInput = ({
     // Check if valid URL contains "show" (case insensitive) - this is also invalid for Spotify
     const isShowUrl = isValidUrl(trimmedValue) && trimmedValue.toLowerCase().includes("show");
     
+    // Check if URL is a Spotify link
+    const isSpotify = isValidUrl(trimmedValue) && trimmedValue.toLowerCase().includes("spotify.com");
+    setIsSpotifyUrl(isSpotify);
+    
     const hasAnyError = isInvalidUrl || isShowUrl;
     setHasError(hasAnyError);
     
     // Only report as having text if there's no error
-    onTextChange?.(trimmedValue.length > 0 && !hasAnyError);
+    onTextChange?.(trimmedValue.length > 0 && !hasAnyError, lyricsTranscript);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const syncInputValue = () => {
+    if (urlInputRef.current) {
+      const value = urlInputRef.current.value;
+      if (value !== urlValue) {
+        setUrlValue(value);
+        validateValue(value);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(syncInputValue, 100);
+    return () => clearInterval(interval);
+  }, [urlValue]);
+
+  const handlePasteClick = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (urlInputRef.current) {
+        urlInputRef.current.value = text;
+        syncInputValue();
+      }
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
+    }
+  };
+
+
+  const handleLyricsTranscriptChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
-    validateValue(value);
+    setLyricsTranscript(value);
+    
+    // Re-trigger validation to pass updated lyrics/transcript to parent
+    validateValue(urlValue);
   };
 
   const handleInstallExtension = () => {
@@ -84,23 +123,49 @@ export const SpotifyInput = ({
 
         {/* Input Section */}
         <div className="w-full max-w-md">
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Enter a URL ..."
-            onChange={handleInputChange}
-            className={`w-full h-14 px-4 border rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 ${
-              hasError 
-                ? 'border-[#DD2525] focus:ring-[#DD2525] focus:border-[#DD2525]' 
-                : 'border-[#d1d6d9] focus:ring-[#2e75cd] focus:border-transparent'
-            }`}
-          />
+          <div className="relative">
+            <input
+              ref={urlInputRef}
+              type="text"
+              placeholder="Enter a URL ..."
+              onFocus={syncInputValue}
+              onBlur={syncInputValue}
+              onKeyUp={syncInputValue}
+              className={`w-full h-14 px-4 pr-16 border rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 ${
+                hasError 
+                  ? 'border-[#DD2525] focus:ring-[#DD2525] focus:border-[#DD2525]' 
+                  : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+              }`}
+            />
+            <button
+              onClick={handlePasteClick}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 text-sm font-medium"
+              type="button"
+            >
+              Paste
+            </button>
+          </div>
           
           {/* Error Message */}
           {hasError && (
             <p className="text-[#DD2525] text-sm mt-2 text-left">
               Invalid URL: Please link only individual tracks and podcast episodes.
             </p>
+          )}
+          
+          {/* Lyrics/Transcript Input Field - appears when Spotify URL is detected */}
+          {isSpotifyUrl && !hasError && (
+            <div className="mt-4">
+              <textarea
+                value={lyricsTranscript}
+                onChange={handleLyricsTranscriptChange}
+                placeholder="Enter lyrics or podcast transcript (optional)"
+                className="w-full h-32 px-4 py-3 border border-[#d1d6d9] rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#2e75cd] focus:border-transparent resize-none"
+              />
+              <p className="text-[#6b7280] text-sm mt-2 text-left">
+                Adding lyrics or transcript will help create a more accurate lesson.
+              </p>
+            </div>
           )}
           
           {/* Generate Lesson Button - appears when there's content and no error */}

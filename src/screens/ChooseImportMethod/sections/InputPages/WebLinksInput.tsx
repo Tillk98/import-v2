@@ -18,6 +18,8 @@ export const WebLinksInput = ({
   loadingType = null 
 }: WebLinksInputProps): JSX.Element => {
   const [hasError, setHasError] = useState(false);
+  const [isSpotifyUrl, setIsSpotifyUrl] = useState(false);
+  const [lyricsTranscript, setLyricsTranscript] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isValidUrl = (url: string): boolean => {
@@ -37,8 +39,16 @@ export const WebLinksInput = ({
     const isInvalid = trimmedValue.length > 0 && !isValidUrl(trimmedValue);
     setHasError(isInvalid);
     
+    // Check if URL is a Spotify link
+    const isSpotify = isValidUrl(trimmedValue) && trimmedValue.toLowerCase().includes("spotify.com");
+    setIsSpotifyUrl(isSpotify);
+    
     // Only report as having text if there's no error
     onTextChange?.(trimmedValue.length > 0 && !isInvalid);
+  };
+
+  const handleLyricsTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLyricsTranscript(e.target.value);
   };
 
   return (
@@ -74,6 +84,22 @@ export const WebLinksInput = ({
             </p>
           )}
           
+          {/* Lyrics/Transcript Input Field - appears when Spotify URL is detected */}
+          {isSpotifyUrl && !hasError && (
+            <div className="mt-4">
+              <textarea
+                value={lyricsTranscript}
+                onChange={handleLyricsTranscriptChange}
+                placeholder="Enter lyrics or podcast transcript..."
+                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400 resize-none"
+                rows={4}
+              />
+              <p className="text-gray-600 text-sm mt-2 text-left">
+                Adding lyrics or transcript will help us generate an accurate lesson.
+              </p>
+            </div>
+          )}
+          
           {/* Which links can I use? section */}
           <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50 rounded-lg">
             <div className="flex-shrink-0 mt-0.5">
@@ -95,8 +121,8 @@ export const WebLinksInput = ({
             <div className="flex justify-center mt-6">
               <Button
                 onClick={onGenerateLesson}
-                disabled={isLoading}
-                className="flex items-center gap-2 px-6 py-2 bg-[#42a564] hover:bg-[#369554] text-white border-0 disabled:opacity-75"
+                disabled={isLoading || (isSpotifyUrl && lyricsTranscript.trim() === "")}
+                className="flex items-center gap-2 px-6 py-2 bg-[#42a564] hover:bg-[#369554] text-white border-0 disabled:opacity-75 disabled:bg-gray-400"
               >
                 {isLoading && loadingType === 'generate' ? (
                   <>

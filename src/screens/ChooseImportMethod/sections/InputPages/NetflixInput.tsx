@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
-import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface NetflixInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -54,191 +53,24 @@ export const NetflixInput = ({
   };
 
   return (
-    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
-        <ProgressIndicator 
-          currentStep={2} 
-          hasContent={hasText} 
-          isGeneratingLesson={false}
+    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-12">
+      {/* Header Section */}
+      <div className="flex items-center gap-4">
+        <div
+          className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(../image-1.png)' }}
         />
-        {/* Header Section */}
-        <div className="flex items-center gap-4 mb-8">
-          <div
-            className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(../image-1.png)' }}
-          />
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold text-black text-left">Import from Netflix</h1>
-            <p className="text-[#6b7280] text-base">
-              Make the most of binge watching – turn movies & TV shows into learning opportunities.
-            </p>
-          </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold text-black">Import from Netflix</h1>
+          <p className="text-[#6b7280] text-base">
+            Make the most of binge watching – turn movies & TV shows into learning opportunities.
+          </p>
         </div>
+      </div>
 
-        {/* Video Carousel Section */}
-        <div className="w-full mb-8">
-          <h2 className="text-xl font-semibold text-black mb-4 text-left">Import these videos</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {/* Video Tile 1 */}
-            <div className="flex-shrink-0 w-64 bg-white rounded-2xl shadow-md overflow-hidden">
-              <div className="relative h-40 bg-gradient-to-br from-gray-800 to-gray-900">
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">12 New Words</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">8 LingQs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">156 Known Words</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center">
-                  <div className="text-white font-bold text-sm">La Casa de Papel</div>
-                  <div className="text-white text-xs">Madrid, España</div>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-black text-sm mb-2">Money Heist: Season 1</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <span>45% new words</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-gray-600">Spanish</span>
-                  <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <span className="text-xs text-gray-600">42:15</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Extension Import Guide */}
+      <div className="w-full max-w-2xl">
 
-            {/* Video Tile 2 */}
-            <div className="flex-shrink-0 w-64 bg-white rounded-2xl shadow-md overflow-hidden">
-              <div className="relative h-40 bg-gradient-to-br from-blue-800 to-blue-900">
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">18 New Words</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">14 LingQs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">203 Known Words</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center">
-                  <div className="text-white font-bold text-sm">Dark</div>
-                  <div className="text-white text-xs">Winden, Deutschland</div>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-black text-sm mb-2">Dark: The Beginning</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <span>52% new words</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-gray-600">German</span>
-                  <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <span className="text-xs text-gray-600">38:42</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Video Tile 3 */}
-            <div className="flex-shrink-0 w-64 bg-white rounded-2xl shadow-md overflow-hidden">
-              <div className="relative h-40 bg-gradient-to-br from-red-800 to-red-900">
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">22 New Words</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">16 LingQs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">189 Known Words</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center">
-                  <div className="text-white font-bold text-sm">Élite</div>
-                  <div className="text-white text-xs">Madrid, España</div>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-black text-sm mb-2">Élite: Class of 2024</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <span>58% new words</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-gray-600">Spanish</span>
-                  <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <span className="text-xs text-gray-600">51:28</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Video Tile 4 */}
-            <div className="flex-shrink-0 w-64 bg-white rounded-2xl shadow-md overflow-hidden">
-              <div className="relative h-40 bg-gradient-to-br from-purple-800 to-purple-900">
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">15 New Words</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">11 LingQs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <span className="text-white text-xs font-medium">267 Known Words</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center">
-                  <div className="text-white font-bold text-sm">Lupin</div>
-                  <div className="text-white text-xs">Paris, France</div>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-black text-sm mb-2">Lupin: Gentleman Thief</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <span>38% new words</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-gray-600">French</span>
-                  <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <span className="text-xs text-gray-600">44:17</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      {/* Extension Import Guide - White Box */}
-      <div className="w-full bg-white rounded-lg shadow-md p-8">
         {/* Step 1 - Install Extension */}
         <div className="flex items-start gap-6 mb-8">
           {/* Step Icon */}
@@ -321,7 +153,7 @@ export const NetflixInput = ({
               <>
                 <button
                   onClick={handleGoToNetflix}
-                  className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-medium transition-colors mb-4"
+                  className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-medium transition-colors mb-4"
                 >
                   Go to Netflix
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -336,7 +168,7 @@ export const NetflixInput = ({
                     <div>
                       <h4 className="font-medium text-yellow-800 text-sm mb-1">Getting Started</h4>
                       <p className="text-yellow-700 text-sm mb-2">
-                        New to the LingQ extension? Find out how to use it to import content from every platform we support.
+                        New to importing Netflix content? Watch our step-by-step video guide to see exactly how it works.
                       </p>
                       <button className="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-yellow-200 transition-colors">
                         <span className="flex items-center gap-2">
@@ -354,7 +186,6 @@ export const NetflixInput = ({
           </div>
         </div>
       </div>
-      </div>
-    </section>
+    </div>
   );
 };

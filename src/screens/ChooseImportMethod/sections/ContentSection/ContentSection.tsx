@@ -30,32 +30,38 @@ const platformIcons = [
   {
     image: "..//image.png",
     title: "Spotify",
-    id: "spotify"
+    id: "spotify",
+    url: "https://spotify.com/"
   },
   {
     image: "..//image-1.png",
     title: "Netflix",
-    id: "netflix"
+    id: "netflix",
+    url: "https://www.netflix.com/"
   },
   {
     image: "..//image-2.png",
     title: "Prime Video",
-    id: "prime-video"
+    id: "prime-video",
+    url: "https://www.amazon.com/gp/video/storefront"
   },
   {
     image: "..//image-3.png",
     title: "YouTube",
-    id: "youtube"
+    id: "youtube",
+    url: "https://www.youtube.com/"
   },
   {
     image: "..//image-4.png",
     title: "Instagram",
-    id: "instagram"
+    id: "instagram",
+    url: "https://www.instagram.com/"
   },
   {
     image: "..//image-5.png",
     title: "Tik Tok",
-    id: "tiktok"
+    id: "tiktok",
+    url: "https://www.tiktok.com/"
   },
 ];
 
@@ -290,9 +296,11 @@ export const ContentSection = ({
                   {/* Platform Icons Grid */}
                   <div className="w-full max-w-md" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', rowGap: '32px' }}>
                     {platformIcons.map((platform, index) => (
-                      <button
+                      <a
                         key={platform.id}
-                        onClick={() => toggleCard(platform.id)}
+                        href={platform.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-md hover:shadow-lg flex-shrink-0"
                         style={{ width: '48px', height: '48px' }}
                         title={platform.title}
@@ -302,7 +310,7 @@ export const ContentSection = ({
                           alt={platform.title}
                           className="w-full h-full object-cover"
                         />
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>

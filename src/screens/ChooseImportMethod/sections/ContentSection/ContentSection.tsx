@@ -122,9 +122,9 @@ export const ContentSection = ({
   }, []);
 
   return (
-    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+    <section className="flex flex-col items-center gap-8 w-full px-8">
       {/* Header and DIY Cards combined */}
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      <div className="flex flex-col items-center gap-8 w-full bg-white rounded-lg shadow-md px-8 py-8">
         {/* Progress Indicator - moved into white section */}
         {showProgressIndicator && (
           <ProgressIndicator 
@@ -169,7 +169,7 @@ export const ContentSection = ({
       </div>
 
       {/* Import from Your Favorite Platforms section */}
-      <div className="flex flex-col items-center gap-6 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      <div className="flex flex-col items-center gap-6 w-full bg-white rounded-lg shadow-md px-8 py-8">
         <div className="text-center">
           <h2 className="text-2xl font-semibold text-black mb-2">
             Import with the LingQ Extension

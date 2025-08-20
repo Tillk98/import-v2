@@ -265,7 +265,7 @@ export const ChooseImportMethod = (): JSX.Element => {
       </div>
       
       {/* Header content moved to gray area */}
-      <div className="flex flex-col items-center gap-2 w-full py-4">
+      <div className="flex flex-col items-center gap-2 w-full py-8">
         <h1 className="text-[32px] font-semibold text-center leading-[40px] text-black">
           Real progress starts with <span className="text-[#3b82f6]">real content.</span>
         </h1>

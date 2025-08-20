@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../../../../components/ui/button";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface TypeOrPasteInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -25,10 +26,16 @@ export const TypeOrPasteInput = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 p-8 w-full">
-      <div className="w-full max-w-[1200px]">
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <ProgressIndicator 
+          currentStep={2} 
+          hasContent={hasText}
+          isGeneratingLesson={false}
+        />
+        
         <div className="w-full">
-          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-center">
+          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-left">
             Type or paste any text
           </h3>
           <textarea
@@ -62,6 +69,6 @@ export const TypeOrPasteInput = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

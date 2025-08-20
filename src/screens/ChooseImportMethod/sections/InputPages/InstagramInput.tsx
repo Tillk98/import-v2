@@ -62,24 +62,26 @@ export const InstagramInput = ({
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-12">
-      {/* Header Section */}
-      <div className="flex items-center gap-4">
-        <div
-          className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(../image-4.png)' }}
-        />
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold text-black">Import from Instagram</h1>
-          <p className="text-[#6b7280] text-base">
-            Use our browser extension to turn Instagram content – Reels and posts – into lessons.
-          </p>
+    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-8">
+      {/* Header and Input Section - White Box */}
+      <div className="w-full bg-white rounded-lg shadow-md p-8">
+        {/* Header Section */}
+        <div className="flex items-center gap-4">
+          <div
+            className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(../image-4.png)' }}
+          />
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-semibold text-black">Import from Instagram</h1>
+            <p className="text-[#6b7280] text-base">
+              Use our browser extension to turn Instagram content – Reels and posts – into lessons.
+            </p>
+          </div>
         </div>
       </div>
 
-
-      {/* Extension Import Guide */}
-      <div className="w-full max-w-2xl">
+      {/* Extension Import Guide - White Box */}
+      <div className="w-full bg-white rounded-lg shadow-md p-8">
         {/* Step 1 - Install Extension */}
         <div className="flex items-start gap-6 mb-8">
           {/* Step Icon */}
@@ -177,7 +179,7 @@ export const InstagramInput = ({
                     <div>
                       <h4 className="font-medium text-yellow-800 text-sm mb-1">Getting Started</h4>
                       <p className="text-yellow-700 text-sm mb-2">
-                        New to importing Instagram content? Watch our step-by-step video guide to see exactly how it works.
+                        New to the LingQ extension? Find out how to use it to import content from every platform we support.
                       </p>
                       <button className="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-yellow-200 transition-colors">
                         <span className="flex items-center gap-2">

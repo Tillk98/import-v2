@@ -108,7 +108,6 @@ export const ContentSection = ({
   };
 
   const handleInstallExtension = () => {
-    window.open('https://chrome.google.com/webstore', '_blank');
     setExtensionInstalled(true);
   };
 

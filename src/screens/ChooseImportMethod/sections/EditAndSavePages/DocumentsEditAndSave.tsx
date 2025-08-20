@@ -89,7 +89,7 @@ export const DocumentsEditAndSave = ({
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <img 
-                    src="/Flag_of_France_(1790–1794).svg.png" 
+                    src="/flag-france-1790-1794.png" 
                     alt="French Flag" 
                     className="w-4 h-3 rounded-sm" 
                   />

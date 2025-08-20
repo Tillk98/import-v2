@@ -19,7 +19,7 @@ export const ScanInput = ({ onBack }: ScanInputProps): JSX.Element => {
           {/* Full-width responsive image */}
           <div className="w-full">
             <img 
-              src="/Scan Page Image.png" 
+              src="/scan-page-image.png" 
               alt="Download the LingQ mobile app - Use scan on our app to point, shoot & transform text around you into lesson content"
               className="w-full h-auto object-contain rounded-lg"
             />

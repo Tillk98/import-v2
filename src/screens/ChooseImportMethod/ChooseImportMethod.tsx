@@ -14,8 +14,6 @@ import { PrimeVideoInput } from "./sections/InputPages/PrimeVideoInput";
 import { YouTubeInput } from "./sections/InputPages/YouTubeInput";
 import { InstagramInput } from "./sections/InputPages/InstagramInput";
 import { TikTokInput } from "./sections/InputPages/TikTokInput";
-import { ScanInput } from "./sections/InputPages/ScanInput";
-import { ExploreContent } from "../ExploreContent/ExploreContent";
 
 const LoadingScreen = (): JSX.Element => {
   const [dots, setDots] = useState('');
@@ -69,7 +67,6 @@ export const ChooseImportMethod = (): JSX.Element => {
   const [showLessonGeneration, setShowLessonGeneration] = useState(false);
   const [selectedImportMethod, setSelectedImportMethod] = useState<string | null>(null);
   const [isGeneratingLesson, setIsGeneratingLesson] = useState(false);
-  const [showExploreContent, setShowExploreContent] = useState(false);
 
   const handleGenerateLesson = () => {
     setIsGeneratingLesson(true); // Mark that lesson generation has started
@@ -106,20 +103,8 @@ export const ChooseImportMethod = (): JSX.Element => {
     setSelectedImportMethod(methodId);
   };
 
-  const handleExploreContent = () => {
-    setShowExploreContent(true);
-  };
-
-  const handleBackFromExploreContent = () => {
-    setShowExploreContent(false);
-  };
-
   if (showLessonGeneration) {
     return <LessonGeneration onBack={handleBackToMain} onGenerateLesson={handleGenerateLesson} />;
-  }
-
-  if (showExploreContent) {
-    return <ExploreContent onBack={handleBackFromExploreContent} />;
   }
 
   // Show input page if an import method is selected
@@ -228,7 +213,18 @@ export const ChooseImportMethod = (): JSX.Element => {
           );
         case 'scan':
           return (
-            <ScanInput onBack={handleBackToImportMethods} />
+            <div className="flex-1 flex items-center justify-center w-full">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold mb-4">Scan Feature</h2>
+                <p className="text-gray-600 mb-8">This feature is coming soon!</p>
+                <button
+                  onClick={handleBackToImportMethods}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  Back to Import Methods
+                </button>
+              </div>
+            </div>
           );
         default:
           return null;
@@ -236,7 +232,7 @@ export const ChooseImportMethod = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
+      <div className="flex flex-col items-center relative bg-white min-h-screen">
         <div className="w-full sticky top-0 z-10 bg-white">
           <NavigationSection />
           <LessonImportHeader 
@@ -244,6 +240,13 @@ export const ChooseImportMethod = (): JSX.Element => {
             currentStep={2}
           />
         </div>
+        <ProgressIndicator 
+          currentStep={2} 
+          hasFileUploaded={hasFile} 
+          hasUrlInput={hasText && (selectedImportMethod === 'spotify' || selectedImportMethod === 'youtube')}
+          hasContent={hasFile || hasText}
+          isGeneratingLesson={isGeneratingLesson}
+        />
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center w-full">
             <LoadingScreen />
@@ -256,24 +259,18 @@ export const ChooseImportMethod = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
+    <div className="flex flex-col items-center relative bg-white min-h-screen">
       <div className="w-full sticky top-0 z-10 bg-white">
         <NavigationSection />
         <LessonImportHeader 
           currentStep={1}
         />
       </div>
-      
-      {/* Header content moved to gray area */}
-      <div className="flex flex-col items-center gap-2 w-full py-8">
-        <h1 className="text-[32px] font-semibold text-center leading-[40px] text-black">
-          Real progress starts with <span className="text-[#3b82f6]">real content.</span>
-        </h1>
-        <p className="text-lg text-gray-600 text-center">
-          Create your own lessons from stuff you love.
-        </p>
-      </div>
-
+      <ProgressIndicator 
+        currentStep={1} 
+        hasContent={false}
+        isGeneratingLesson={false}
+      />
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center w-full">
           <LoadingScreen />
@@ -281,11 +278,6 @@ export const ChooseImportMethod = (): JSX.Element => {
       ) : (
         <ContentSection 
           onImportMethodSelected={handleImportMethodSelected}
-          onExploreContent={handleExploreContent}
-          showProgressIndicator={true}
-          currentStep={1}
-          hasContent={false}
-          isGeneratingLesson={false}
         />
       )}
     </div>

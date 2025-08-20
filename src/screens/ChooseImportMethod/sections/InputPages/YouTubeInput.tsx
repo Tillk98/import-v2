@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface YouTubeInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -62,9 +63,13 @@ export const YouTubeInput = ({
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-8">
-      {/* Header and Input Section - White Box */}
-      <div className="w-full bg-white rounded-lg shadow-md p-8">
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <ProgressIndicator 
+          currentStep={2} 
+          hasContent={hasText && !hasError} 
+          isGeneratingLesson={false}
+        />
         {/* Header Section */}
         <div className="flex items-center gap-4 mb-8">
           <div
@@ -72,7 +77,7 @@ export const YouTubeInput = ({
             style={{ backgroundImage: 'url(../image-3.png)' }}
           />
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold text-black">Import from Youtube</h1>
+            <h1 className="text-2xl font-semibold text-black text-left">Import from Youtube</h1>
             <p className="text-[#6b7280] text-base">
               Turn videos from creators fluent in your target language into engaging lessons.
             </p>
@@ -113,7 +118,6 @@ export const YouTubeInput = ({
             </div>
           )}
         </div>
-      </div>
 
       {/* Extension Import Guide - White Box */}
       <div className="w-full bg-white rounded-lg shadow-md p-8">
@@ -232,7 +236,7 @@ export const YouTubeInput = ({
           </div>
         </div>
       </div>
-
-    </div>
+      </div>
+    </section>
   );
 };

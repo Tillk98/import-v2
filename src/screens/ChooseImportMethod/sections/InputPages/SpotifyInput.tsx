@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button } from "../../../../components/ui/button";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface SpotifyInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -57,9 +58,13 @@ export const SpotifyInput = ({
 
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-8">
-      {/* Header and Input Section - White Box */}
-      <div className="w-full bg-white rounded-lg shadow-md p-8">
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <ProgressIndicator 
+          currentStep={2} 
+          hasContent={hasText && !hasError}
+          isGeneratingLesson={false}
+        />
         {/* Header Section */}
         <div className="flex items-center gap-4 mb-8">
           <div
@@ -112,6 +117,6 @@ export const SpotifyInput = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

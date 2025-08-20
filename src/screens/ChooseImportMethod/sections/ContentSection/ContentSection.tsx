@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../../../../components/ui/card";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 const doItYourselfOptions = [
   {
@@ -8,7 +9,8 @@ const doItYourselfOptions = [
   },
   {
     icon: "/icon-3.svg",
-    title: "Web Links",
+    title: "URLs",
+    subtitle: "Supports YouTube & Spotify",
   },
   {
     icon: "/icon.svg",
@@ -59,10 +61,20 @@ const platformIcons = [
 
 interface ContentSectionProps {
   onImportMethodSelected?: (methodId: string) => void;
+  onExploreContent?: () => void;
+  showProgressIndicator?: boolean;
+  currentStep?: number;
+  hasContent?: boolean;
+  isGeneratingLesson?: boolean;
 }
 
 export const ContentSection = ({ 
-  onImportMethodSelected
+  onImportMethodSelected,
+  onExploreContent,
+  showProgressIndicator = false,
+  currentStep = 1,
+  hasContent = false,
+  isGeneratingLesson = false
 }: ContentSectionProps): JSX.Element => {
   const [activeCards, setActiveCards] = useState<Set<string>>(new Set());
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1240);
@@ -113,34 +125,43 @@ export const ContentSection = ({
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
       {/* Header and DIY Cards combined */}
       <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
-        {/* Header */}
-        <div className="flex flex-col items-center gap-4 w-full">
-          <h1 className="text-[32px] font-semibold text-center leading-[40px] text-black">
-            Real progress starts with <span className="text-[#3b82f6]">real content.</span>
-          </h1>
-          <p className="text-lg text-gray-600 text-center">
-            Create your own lessons from stuff you love.
-          </p>
-        </div>
+        {/* Progress Indicator - moved into white section */}
+        {showProgressIndicator && (
+          <ProgressIndicator 
+            currentStep={currentStep} 
+            hasContent={hasContent}
+            isGeneratingLesson={isGeneratingLesson}
+          />
+        )}
 
         {/* DIY Cards - Horizontal layout */}
         <div className="flex flex-wrap items-center justify-center gap-4 w-full">
           {doItYourselfOptions.map((option, index) => {
             const cardId = `diy-${index}`;
+            const hasSubtitle = option.subtitle;
             return (
               <div
                 key={index}
-                className="flex items-center gap-3 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:shadow-md transition-all min-w-[140px]"
+                className={`flex items-center gap-3 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:shadow-md transition-all h-[60px] ${
+                  hasSubtitle ? 'min-w-[200px]' : 'min-w-[140px]'
+                }`}
                 onClick={() => toggleCard(cardId)}
               >
                 <img
-                  className="w-6 h-6"
+                  className="w-6 h-6 flex-shrink-0"
                   alt={option.title}
                   src={option.icon}
                 />
-                <span className="text-sm font-medium text-gray-800">
-                  {option.title}
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-gray-800">
+                    {option.title}
+                  </span>
+                  {hasSubtitle && (
+                    <span className="text-xs text-gray-500 mt-0.5">
+                      {option.subtitle}
+                    </span>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -151,10 +172,10 @@ export const ContentSection = ({
       <div className="flex flex-col items-center gap-6 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
         <div className="text-center">
           <h2 className="text-2xl font-semibold text-black mb-2">
-            Use the LingQ Extension
+            Import with the LingQ Extension
           </h2>
           <p className="text-gray-600 text-base">
-            Transform TV shows, YouTube videos, podcast episodes – even you favorite songs – into interactive lessons with the LingQ browser extension.
+            Transform TV shows, YouTube videos, podcast episodes into interactive lessons with the LingQ browser extension.
           </p>
         </div>
 
@@ -194,9 +215,7 @@ export const ContentSection = ({
           <div className="flex items-start gap-4 mb-6">
             <div className="flex-shrink-0">
               <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-400 rounded-lg flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
-                  <path d="M8 12H16M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <img src="/Vector.svg" alt="Extension icon" className="w-5 h-5" />
               </div>
               {/* Connecting line to Step 2 */}
               <div className="w-0.5 h-12 bg-gray-200 ml-5 mt-2"></div>
@@ -246,29 +265,51 @@ export const ContentSection = ({
               <div className="mb-1">
                 <span className={`text-xs uppercase tracking-wider ${extensionInstalled ? 'text-gray-500' : 'text-gray-400'}`}>Step 2</span>
               </div>
-              <h3 className={`text-lg font-semibold mb-2 ${extensionInstalled ? 'text-black' : 'text-gray-400'}`}>
-                Choose a Platform & Import Content
+              <h3 className={`text-2xl font-semibold mb-2 ${extensionInstalled ? 'text-black' : 'text-gray-400'}`}>
+                Explore Content & Import
               </h3>
-              <p className={`text-sm ${extensionInstalled ? 'text-gray-600' : 'text-gray-400'}`}>
-                Use the LingQ extension to create interactive lessons instantly from TV shows, YouTube videos, podcast episodes – even your favorite songs.
-              </p>
+              {extensionInstalled && (
+                <p className="text-base mb-6 text-gray-600">
+                  Browse external lessons right here on LingQ or choose a source below to go to the platform.
+                </p>
+              )}
+              
+              {/* Platform buttons - only shown when Step 2 is active */}
+              {extensionInstalled && (
+                <div className="space-y-4">
+                  {/* Explore External Lessons button */}
+                  <button 
+                    onClick={onExploreContent}
+                    className="w-full max-w-md bg-blue-500 hover:bg-blue-600 text-white px-6 py-4 rounded-xl text-base font-medium transition-colors flex items-center justify-between"
+                  >
+                    <span>Explore External Lessons</span>
+                    <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M6 12L10 8L6 4"/>
+                    </svg>
+                  </button>
+                  
+                  {/* Platform Icons Grid */}
+                  <div className="w-full max-w-md" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', rowGap: '32px' }}>
+                    {platformIcons.map((platform, index) => (
+                      <button
+                        key={platform.id}
+                        onClick={() => toggleCard(platform.id)}
+                        className="rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-md hover:shadow-lg flex-shrink-0"
+                        style={{ width: '48px', height: '48px' }}
+                        title={platform.title}
+                      >
+                        <img
+                          src={platform.image}
+                          alt={platform.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Platform Icons (only shown when Step 2 is active) */}
-          {extensionInstalled && (
-            <div className="flex items-center justify-center gap-4 mt-6">
-              {platformIcons.filter(platform => platform.id !== 'spotify').map((platform, index) => (
-                <div
-                  key={`step2-${index}`}
-                  className="w-12 h-12 rounded-lg bg-cover bg-center bg-no-repeat cursor-pointer hover:scale-105 transition-transform"
-                  style={{ backgroundImage: `url(${platform.image})` }}
-                  onClick={() => toggleCard(platform.id)}
-                  title={platform.title}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface NetflixInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -53,9 +54,13 @@ export const NetflixInput = ({
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[800px] mx-auto px-8 py-16 gap-8">
-      {/* Header and Input Section - White Box */}
-      <div className="w-full bg-white rounded-lg shadow-md p-8">
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <ProgressIndicator 
+          currentStep={2} 
+          hasContent={hasText} 
+          isGeneratingLesson={false}
+        />
         {/* Header Section */}
         <div className="flex items-center gap-4 mb-8">
           <div
@@ -63,7 +68,7 @@ export const NetflixInput = ({
             style={{ backgroundImage: 'url(../image-1.png)' }}
           />
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold text-black">Import from Netflix</h1>
+            <h1 className="text-2xl font-semibold text-black text-left">Import from Netflix</h1>
             <p className="text-[#6b7280] text-base">
               Make the most of binge watching – turn movies & TV shows into learning opportunities.
             </p>
@@ -72,7 +77,7 @@ export const NetflixInput = ({
 
         {/* Video Carousel Section */}
         <div className="w-full mb-8">
-          <h2 className="text-xl font-semibold text-black mb-4">Import these videos</h2>
+          <h2 className="text-xl font-semibold text-black mb-4 text-left">Import these videos</h2>
           <div className="flex gap-4 overflow-x-auto pb-4">
             {/* Video Tile 1 */}
             <div className="flex-shrink-0 w-64 bg-white rounded-2xl shadow-md overflow-hidden">
@@ -231,7 +236,6 @@ export const NetflixInput = ({
             </div>
           </div>
         </div>
-      </div>
 
       {/* Extension Import Guide - White Box */}
       <div className="w-full bg-white rounded-lg shadow-md p-8">
@@ -350,6 +354,7 @@ export const NetflixInput = ({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </section>
   );
 };

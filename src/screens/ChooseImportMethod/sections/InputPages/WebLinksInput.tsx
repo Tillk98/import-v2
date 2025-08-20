@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button } from "../../../../components/ui/button";
+import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
 interface WebLinksInputProps {
   onTextChange?: (hasText: boolean) => void;
@@ -41,16 +42,22 @@ export const WebLinksInput = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 p-8 w-full">
-      <div className="w-full max-w-[1200px]">
+    <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
+      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+        <ProgressIndicator 
+          currentStep={2} 
+          hasContent={hasText && !hasError}
+          isGeneratingLesson={false}
+        />
+        
         <div className="w-full">
-          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-center">
-            Add a URL
+          <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-left">
+            Link to Your Content
           </h3>
           <input
             ref={inputRef}
             type="url"
-            placeholder="Paste URL ..."
+            placeholder="Enter a URL ..."
             className={`w-full p-4 border rounded-lg focus:outline-none focus:ring-2 text-gray-700 placeholder-gray-400 ${
               hasError 
                 ? 'border-[#DD2525] focus:ring-[#DD2525] focus:border-[#DD2525]' 
@@ -67,9 +74,22 @@ export const WebLinksInput = ({
             </p>
           )}
           
-          <p className="text-gray-600 text-sm mt-2 text-center">
-            Don't have a URL ready? Here are <a href="#" className="text-blue-500 underline">some sites we recommend</a> you explore for content.
-          </p>
+          {/* Which links can I use? section */}
+          <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50 rounded-lg">
+            <div className="flex-shrink-0 mt-0.5">
+              <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div className="flex-1">
+              <h4 className="text-blue-600 font-medium text-sm mb-1">Which links can I use?</h4>
+              <p className="text-gray-600 text-sm">
+                Grab links to songs and podcasts on Spotify, YouTube videos in your target language, or article & blog content. Check out our <a href="#" className="text-blue-500 underline font-medium">how to guide</a> on linking content for more information.
+              </p>
+            </div>
+          </div>
           
           {hasText && !hasError && (
             <div className="flex justify-center mt-6">
@@ -94,6 +114,6 @@ export const WebLinksInput = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

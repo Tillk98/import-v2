@@ -47,54 +47,48 @@ export const TypeOrPasteEditAndSave = ({
           
           {/* Title Section */}
           <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
             <div className="p-4 border border-gray-300 rounded-lg bg-white">
-              <span className="text-gray-700 text-sm block mb-2">Title</span>
               <input
                 type="text"
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full text-black placeholder-gray-500 border-none outline-none bg-transparent"
+                className="w-full text-gray-900 font-medium placeholder-gray-500 border-none outline-none bg-transparent"
               />
             </div>
           </div>
 
           {/* Course Dropdown */}
           <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Course</label>
             <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
-              <span className="text-gray-700">Course</span>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-900 font-medium">{course}</span>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+              <span className="text-gray-900 font-medium">{course}</span>
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
 
           {/* Tags Dropdown */}
           <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
             <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
-              <span className="text-gray-700">Tags</span>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-900 font-medium">{tags || 'Add Tags'}</span>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+              <span className="text-gray-900 font-medium">{tags || 'Add Tags'}</span>
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
 
           {/* Level Dropdown */}
           <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Level</label>
             <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
-              <span className="text-gray-700">Level</span>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-900 font-medium">{level}</span>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+              <span className="text-gray-900 font-medium">{level}</span>
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
 

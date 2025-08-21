@@ -28,7 +28,7 @@ export const NavigationSection = (): JSX.Element => {
         <div className="relative w-[98px] h-[31.5px] bg-[url(/union.svg)] bg-contain bg-center bg-no-repeat" />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-[479px]:hidden">
         <Button className="inline-flex items-center gap-1 px-3 py-2 bg-[#1166b8] rounded-[15px] h-auto hover:bg-[#0f5ba3] text-xs">
           <img
             className="w-[22px] h-[13.5px]"

@@ -36,23 +36,23 @@ export const ProgressIndicator = ({
   const getStepCircleClasses = (stepNumber: number) => {
     // Step 2 (Add Content) becomes completed when user has added content
     if (stepNumber === 2 && hasContent && currentStep === 2) {
-      return "w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center";
+      return "w-7 h-7 max-[479px]:w-6 max-[479px]:h-6 bg-green-500 text-white rounded-full flex items-center justify-center";
     }
     
     // Step 3 (Generate Lesson) becomes completed when user has clicked generate lesson
     if (stepNumber === 3 && isGeneratingLesson) {
-      return "w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center";
+      return "w-7 h-7 max-[479px]:w-6 max-[479px]:h-6 bg-green-500 text-white rounded-full flex items-center justify-center";
     }
     
     if (stepNumber < currentStep) {
       // Completed step - green with checkmark
-      return "w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center";
+      return "w-7 h-7 max-[479px]:w-6 max-[479px]:h-6 bg-green-500 text-white rounded-full flex items-center justify-center";
     } else if (stepNumber === currentStep) {
       // Current step - blue with number
-      return "w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center font-medium";
+      return "w-7 h-7 max-[479px]:w-6 max-[479px]:h-6 bg-blue-500 text-white rounded-full flex items-center justify-center font-medium";
     } else {
       // Future step - grey with number
-      return "w-7 h-7 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-medium";
+      return "w-7 h-7 max-[479px]:w-6 max-[479px]:h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-medium";
     }
   };
 
@@ -113,15 +113,15 @@ export const ProgressIndicator = ({
               <div className="flex flex-col items-center">
                 <div className={getStepCircleClasses(step.number)}>
                   {isStepCompleted(step.number) ? (
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 max-[479px]:w-2.5 max-[479px]:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   ) : (
-                    <span className="text-xs">{step.number}</span>
+                    <span className="text-xs max-[479px]:text-[10px]">{step.number}</span>
                   )}
                 </div>
                 <div className="mt-2 text-center relative">
-                  <h3 className={`text-sm ${getStepTitleClasses(step.number)}`}>
+                  <h3 className={`text-sm max-[479px]:text-xs ${getStepTitleClasses(step.number)}`}>
                     {step.title}
                   </h3>
                 </div>

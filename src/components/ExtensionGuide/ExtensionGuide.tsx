@@ -20,7 +20,7 @@ export const ExtensionGuide = ({
 
   const handleInstallExtension = () => {
     setExtensionInstalled(true);
-    onInstallExtension?.();
+    // onInstallExtension?.(); // Removed link functionality
   };
 
   const platformConfig = {

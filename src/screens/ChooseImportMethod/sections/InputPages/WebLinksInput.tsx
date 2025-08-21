@@ -72,19 +72,23 @@ export const WebLinksInput = ({
 
   return (
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      {/* Progress Indicator */}
+      <div className="w-full bg-[#F1F3F4] pt-4">
         <ProgressIndicator 
           currentStep={2} 
           hasContent={hasText && !hasError}
           isGeneratingLesson={false}
         />
+      </div>
+
+      <div className="w-full bg-white rounded-2xl p-8 border border-gray-100">
         
         <div className="w-full">
           <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-2 text-left">
             Link to Your Content
           </h3>
           <p className="text-gray-600 mb-4 text-sm">
-            Try linking to a podcast or song on Spotify, a YouTube video, or an article.
+            Grab links to article & blog content. Check out our <span className="text-blue-500 underline cursor-pointer">how to guide</span> on linking content for more information.
           </p>
           <input
             ref={inputRef}
@@ -125,24 +129,6 @@ export const WebLinksInput = ({
             </div>
           )}
           
-          {/* Which links can I use? section - only show on error */}
-          {hasError && (
-            <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50 rounded-lg">
-              <div className="flex-shrink-0 mt-0.5">
-                <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="flex-1">
-                <h4 className="text-blue-600 font-medium text-sm mb-1">Which links can I use?</h4>
-                <p className="text-gray-600 text-sm">
-                  Check out our <a href="#" className="text-blue-500 underline font-medium">how to guide</a> on linking content for more information.
-                </p>
-              </div>
-            </div>
-          )}
           
           {hasText && !hasError && (
             <div className="flex justify-center mt-6">
@@ -160,7 +146,7 @@ export const WebLinksInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Review & Save'
+                  'Review & Import'
                 )}
               </Button>
             </div>

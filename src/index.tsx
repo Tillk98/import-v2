@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ChooseImportMethod } from "./screens/ChooseImportMethod/ChooseImportMethod";
+import { LandingPage } from "./screens/LandingPage/LandingPage";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
-    <ChooseImportMethod />
+    <LandingPage />
   </StrictMode>,
 );

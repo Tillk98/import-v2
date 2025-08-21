@@ -8,12 +8,16 @@ interface ScanInputProps {
 export const ScanInput = ({ onBack }: ScanInputProps): JSX.Element => {
   return (
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      {/* Progress Indicator */}
+      <div className="w-full bg-[#F1F3F4] pt-4">
         <ProgressIndicator 
           currentStep={2} 
           hasContent={false}
           isGeneratingLesson={false}
         />
+      </div>
+
+      <div className="w-full bg-white rounded-2xl p-8 border border-gray-100">
         
         <div className="w-full">
           {/* Full-width responsive image */}

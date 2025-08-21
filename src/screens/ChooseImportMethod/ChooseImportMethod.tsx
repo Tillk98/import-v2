@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ContentSection } from "./sections/ContentSection/ContentSection";
 import { NavigationSection } from "./sections/NavigationSection/NavigationSection";
 import { LessonImportHeader } from "./sections/LessonImportHeader/LessonImportHeader";
 import { ProgressIndicator } from "../../components/ProgressIndicator/ProgressIndicator";
@@ -74,14 +73,19 @@ const LoadingScreen = ({ showProgressIndicator = false }: { showProgressIndicato
   );
 };
 
-export const ChooseImportMethod = (): JSX.Element => {
+interface ChooseImportMethodProps {
+  initialMethod?: string;
+  onBack?: () => void;
+}
+
+export const ChooseImportMethod = ({ initialMethod, onBack }: ChooseImportMethodProps): JSX.Element => {
   const [hasText, setHasText] = useState(false);
   const [hasFile, setHasFile] = useState(false);
   const [webUrl, setWebUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingType, setLoadingType] = useState<'edit' | 'generate' | null>(null);
   const [showLessonGeneration, setShowLessonGeneration] = useState(false);
-  const [selectedImportMethod, setSelectedImportMethod] = useState<string | null>(null);
+  const [selectedImportMethod, setSelectedImportMethod] = useState<string | null>(initialMethod || null);
   const [isGeneratingLesson, setIsGeneratingLesson] = useState(false);
   const [showExploreContent, setShowExploreContent] = useState(false);
   const [showEditAndSave, setShowEditAndSave] = useState<string | null>(null);
@@ -117,20 +121,21 @@ export const ChooseImportMethod = (): JSX.Element => {
   };
 
   const handleBackToImportMethods = () => {
-    setSelectedImportMethod(null);
-    setHasText(false);
-    setHasFile(false);
-    setIsGeneratingLesson(false);
-    setShowEditAndSave(null);
+    if (onBack) {
+      onBack();
+    } else {
+      setSelectedImportMethod(null);
+      setHasText(false);
+      setHasFile(false);
+      setIsGeneratingLesson(false);
+      setShowEditAndSave(null);
+    }
   };
 
   const handleBackFromEditAndSave = () => {
     setShowEditAndSave(null);
   };
 
-  const handleImportMethodSelected = (methodId: string) => {
-    setSelectedImportMethod(methodId);
-  };
 
   const handleExploreContent = () => {
     setShowExploreContent(true);
@@ -210,172 +215,143 @@ export const ChooseImportMethod = (): JSX.Element => {
     );
   }
 
-  // Show input page if an import method is selected
-  if (selectedImportMethod) {
-    const renderInputPage = () => {
-      switch (selectedImportMethod) {
-        case 'type-or-paste':
-          return (
-            <TypeOrPasteInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleEditAndSave}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'web-links':
-          return (
-            <WebLinksInput
-              onTextChange={setHasText}
-              onUrlChange={setWebUrl}
-              onGenerateLesson={handleEditAndSave}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'audio-files':
-          return (
-            <AudioFilesInput
-              onFileUpload={setHasFile}
-              onGenerateLesson={handleEditAndSave}
-              hasFile={hasFile}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'documents':
-          return (
-            <DocumentsInput
-              onFileUpload={setHasFile}
-              onGenerateLesson={handleEditAndSave}
-              hasFile={hasFile}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'spotify':
-          return (
-            <SpotifyInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'netflix':
-          return (
-            <NetflixInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'prime-video':
-          return (
-            <PrimeVideoInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'youtube':
-          return (
-            <YouTubeInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'instagram':
-          return (
-            <InstagramInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'tiktok':
-          return (
-            <TikTokInput
-              onTextChange={setHasText}
-              onGenerateLesson={handleGenerateLesson}
-              hasText={hasText}
-              isLoading={isLoading}
-              loadingType={loadingType}
-            />
-          );
-        case 'scan':
-          return (
-            <ScanInput onBack={handleBackToImportMethods} />
-          );
-        default:
-          return null;
-      }
-    };
 
-    return (
-      <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
-        <div className="w-full sticky top-0 z-10 bg-white">
-          <NavigationSection />
-          <LessonImportHeader 
-            onBack={handleBackToImportMethods}
-            currentStep={2}
-          />
-        </div>
-        {isLoading ? (
-          <div className="flex-1 flex items-center justify-center w-full">
-            <LoadingScreen />
-          </div>
-        ) : (
-          renderInputPage()
-        )}
-      </div>
-    );
+  // If no method is selected, return null or redirect back
+  if (!selectedImportMethod) {
+    if (onBack) {
+      onBack();
+    }
+    return <div>No import method selected</div>;
   }
+
+  // Directly show the input page for the selected method
+  const renderInputPage = () => {
+    switch (selectedImportMethod) {
+      case 'type-or-paste':
+        return (
+          <TypeOrPasteInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleEditAndSave}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'web-links':
+        return (
+          <WebLinksInput
+            onTextChange={setHasText}
+            onUrlChange={setWebUrl}
+            onGenerateLesson={handleEditAndSave}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'audio-files':
+        return (
+          <AudioFilesInput
+            onFileUpload={setHasFile}
+            onGenerateLesson={handleEditAndSave}
+            hasFile={hasFile}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'documents':
+        return (
+          <DocumentsInput
+            onFileUpload={setHasFile}
+            onGenerateLesson={handleEditAndSave}
+            hasFile={hasFile}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'spotify':
+        return (
+          <SpotifyInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'netflix':
+        return (
+          <NetflixInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'prime-video':
+        return (
+          <PrimeVideoInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'youtube':
+        return (
+          <YouTubeInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'instagram':
+        return (
+          <InstagramInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'tiktok':
+        return (
+          <TikTokInput
+            onTextChange={setHasText}
+            onGenerateLesson={handleGenerateLesson}
+            hasText={hasText}
+            isLoading={isLoading}
+            loadingType={loadingType}
+          />
+        );
+      case 'scan':
+        return (
+          <ScanInput onBack={handleBackToImportMethods} />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="flex flex-col items-center relative bg-[#F1F3F4] min-h-screen">
       <div className="w-full sticky top-0 z-10 bg-white">
         <NavigationSection />
         <LessonImportHeader 
-          currentStep={1}
+          onBack={handleBackToImportMethods}
+          currentStep={2}
         />
       </div>
-      
-      {/* Header content moved to gray area */}
-      <div className="flex flex-col items-center gap-2 w-full py-8">
-        <h1 className="text-[32px] font-semibold text-center leading-[40px] text-black">
-          Real progress starts with <span className="text-[#3b82f6]">real content.</span>
-        </h1>
-        <p className="text-lg text-gray-600 text-center">
-          Create your own lessons from stuff you love.
-        </p>
-      </div>
-
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center w-full">
           <LoadingScreen />
         </div>
       ) : (
-        <ContentSection 
-          onImportMethodSelected={handleImportMethodSelected}
-          onExploreContent={handleExploreContent}
-          showProgressIndicator={true}
-          currentStep={1}
-          hasContent={false}
-          isGeneratingLesson={false}
-        />
+        renderInputPage()
       )}
     </div>
   );

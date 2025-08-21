@@ -28,7 +28,7 @@ export const ProgressIndicator = ({
     },
     {
       number: 3,
-      title: "Review & Save",
+      title: "Review & Import",
       description: "Create your lesson",
     },
   ];

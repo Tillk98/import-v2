@@ -27,12 +27,16 @@ export const TypeOrPasteInput = ({
 
   return (
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      {/* Progress Indicator */}
+      <div className="w-full bg-[#F1F3F4] pt-4">
         <ProgressIndicator 
           currentStep={2} 
           hasContent={hasText}
           isGeneratingLesson={false}
         />
+      </div>
+
+      <div className="w-full bg-white rounded-2xl p-8 border border-gray-100">
         
         <div className="w-full">
           <h3 className="font-text-2xl-bold font-[number:var(--text-2xl-bold-font-weight)] text-black text-[length:var(--text-2xl-bold-font-size)] tracking-[var(--text-2xl-bold-letter-spacing)] leading-[var(--text-2xl-bold-line-height)] [font-style:var(--text-2xl-bold-font-style)] mb-4 text-left">
@@ -62,7 +66,7 @@ export const TypeOrPasteInput = ({
                     Loading...
                   </>
                 ) : (
-                  'Review & Save'
+                  'Review & Import'
                 )}
               </Button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
+import { ExtensionGuide } from "../../../../components/ExtensionGuide/ExtensionGuide";
 
 interface SpotifyInputProps {
   onTextChange?: (hasText: boolean, lyricsTranscript?: string) => void;
@@ -18,7 +19,7 @@ export const SpotifyInput = ({
   loadingType
 }: SpotifyInputProps): JSX.Element => {
   const [hasError, setHasError] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+  // Removed unused state variables - now handled by ExtensionGuide component
   const [isSpotifyUrl, setIsSpotifyUrl] = useState(false);
   const [lyricsTranscript, setLyricsTranscript] = useState("");
   const [urlValue, setUrlValue] = useState("");
@@ -92,18 +93,25 @@ export const SpotifyInput = ({
 
   const handleInstallExtension = () => {
     window.open('https://chrome.google.com/webstore', '_blank');
-    setCurrentStep(2);
+  };
+
+  const handleGoToSpotify = () => {
+    window.open('https://spotify.com', '_blank');
   };
 
 
   return (
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center gap-8 w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+      {/* Progress Indicator */}
+      <div className="w-full bg-[#F1F3F4] pt-4">
         <ProgressIndicator 
           currentStep={2} 
           hasContent={hasText && !hasError}
           isGeneratingLesson={false}
         />
+      </div>
+
+      <div className="w-full bg-white rounded-2xl p-8 border border-gray-100">
         {/* Header Section */}
         <div className="flex items-center gap-4 mb-8">
           <div
@@ -122,7 +130,7 @@ export const SpotifyInput = ({
         </div>
 
         {/* Input Section */}
-        <div className="w-full max-w-md">
+        <div className="w-full">
           <div className="relative">
             <input
               ref={urlInputRef}
@@ -131,19 +139,12 @@ export const SpotifyInput = ({
               onFocus={syncInputValue}
               onBlur={syncInputValue}
               onKeyUp={syncInputValue}
-              className={`w-full h-14 px-4 pr-16 border rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 ${
+              className={`w-full h-14 px-4 border rounded-lg text-base placeholder-[#9ca3af] focus:outline-none focus:ring-2 ${
                 hasError 
                   ? 'border-[#DD2525] focus:ring-[#DD2525] focus:border-[#DD2525]' 
                   : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
               }`}
             />
-            <button
-              onClick={handlePasteClick}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 text-sm font-medium"
-              type="button"
-            >
-              Paste
-            </button>
           </div>
           
           {/* Error Message */}
@@ -176,12 +177,19 @@ export const SpotifyInput = ({
                 disabled={isLoading && loadingType === 'generate'}
                 className="w-full bg-[#42a564] hover:bg-[#369555] text-white px-8 py-3 rounded-lg font-medium disabled:opacity-50"
               >
-                {isLoading && loadingType === 'generate' ? "Loading..." : "Generate Lesson"}
+                {isLoading && loadingType === 'generate' ? "Loading..." : "Review & Import"}
               </Button>
             </div>
           )}
         </div>
       </div>
+
+      {/* Extension Guide */}
+      <ExtensionGuide 
+        platform="spotify"
+        onInstallExtension={handleInstallExtension}
+        onGoToPlatform={handleGoToSpotify}
+      />
     </section>
   );
 };

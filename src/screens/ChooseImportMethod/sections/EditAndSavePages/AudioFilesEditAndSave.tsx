@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { ProgressIndicator } from "../../../../components/ProgressIndicator/ProgressIndicator";
 
@@ -13,20 +13,10 @@ export const AudioFilesEditAndSave = ({
   isLoading = false, 
   loadingType = null 
 }: AudioFilesEditAndSaveProps): JSX.Element => {
-  const [language, setLanguage] = useState('French');
-  const [course, setCourse] = useState('Quick Imports');
-  const [level, setLevel] = useState('');
-  const [title, setTitle] = useState('14-Juillet : les images du défilé militaire');
-  const [description, setDescription] = useState('audio-example.mp3');
+  const [title, setTitle] = useState('Easy French');
+  const [course, setCourse] = useState('Default');
   const [tags, setTags] = useState('');
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-    }
-  }, [description]);
+  const [level, setLevel] = useState('No Knowledge');
 
   return (
     <section className="flex flex-col items-center gap-8 p-8 w-full max-w-[1200px] mx-auto">
@@ -39,61 +29,54 @@ export const AudioFilesEditAndSave = ({
         
         <div className="w-full">
           
-          {/* Title and Description Section */}
+          {/* Title Section */}
           <div className="mb-6">
             <div className="p-4 border border-gray-300 rounded-lg bg-white">
+              <span className="text-gray-700 text-sm block mb-2">Title</span>
               <input
                 type="text"
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full text-black placeholder-gray-500 border-none outline-none bg-transparent mb-4"
+                className="w-full text-black placeholder-gray-500 border-none outline-none bg-transparent"
               />
-              <div className="w-full h-px bg-gray-300 mb-4"></div>
-              <textarea
-                ref={textareaRef}
-                placeholder="Description ..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full text-black placeholder-gray-500 border-none outline-none bg-transparent resize-none overflow-hidden"
-                style={{ height: 'auto', minHeight: '1.5rem' }}
-                onInput={(e) => {
-                  const target = e.target as HTMLTextAreaElement;
-                  target.style.height = 'auto';
-                  target.style.height = target.scrollHeight + 'px';
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Language Dropdown */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
-              <span className="text-gray-700">Language</span>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <img 
-                    src="/flag-france-1790-1794.png" 
-                    alt="French Flag" 
-                    className="w-4 h-3 rounded-sm" 
-                  />
-                </div>
-                <span className="text-gray-900 font-medium">{language} <span className="text-sm text-gray-500">(detected)</span></span>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
             </div>
           </div>
 
           {/* Course Dropdown */}
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
               <span className="text-gray-700">Course</span>
               <div className="flex items-center gap-2">
                 <span className="text-gray-900 font-medium">{course}</span>
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Tags Dropdown */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
+              <span className="text-gray-700">Tags</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-900 font-medium">{tags || 'Add Tags'}</span>
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Level Dropdown */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer">
+              <span className="text-gray-700">Level</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-900 font-medium">{level}</span>
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
@@ -115,7 +98,7 @@ export const AudioFilesEditAndSave = ({
                   Loading...
                 </>
               ) : (
-                'Save Lesson'
+                'Review & Import'
               )}
             </Button>
           </div>
